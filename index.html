@@ -1379,7 +1379,9 @@
   function rotationOrder(){
     var base=(typeof PROMPT_ORDER!=="undefined" ? PROMPT_ORDER : []).filter(function(id){ return BASE_IDS.indexOf(id)>=0; });
     var seen={}; base=base.filter(function(id){ if(seen[id]) return false; seen[id]=1; return true; });
-    BASE_IDS.forEach(function(id){ if(!seen[id]) base.push(id); });
+    var reserve=(typeof ROTATION_RESERVE!=="undefined" ? ROTATION_RESERVE : []);
+    base=base.filter(function(id){ return reserve.indexOf(id)<0; });
+    BASE_IDS.forEach(function(id){ if(!seen[id] && reserve.indexOf(id)<0) base.push(id); });
     return base;
   }
   function rotationDays(){ return Math.floor(rotationOrder().length/ROUND_LEN); }

@@ -22,10 +22,29 @@
   });
 
   function mapPath(p){ var m = String(p).match(/^data\/users\/([^/]+)\/profile$/); return m ? "profiles/" + m[1] : p; }
-  function snap(s){ return { id: s.id, exists: s.exists, data: function(){ return s.data(); }, metadata: {} }; }
+  // Firestore can't store arrays inside arrays, so each day's picks [[promptId, answer], ...]
+  // are saved as [{p, a}, ...] and turned back into pairs when read.
+  function packDays(days){
+    var out = {};
+    Object.keys(days || {}).forEach(function(k){
+      var d = Object.assign({}, days[k]);
+      if (Array.isArray(d.picks)) d.picks = d.picks.map(function(x){ return Array.isArray(x) ? { p: String(x[0] || ""), a: x[1] == null ? null : String(x[1]) } : x; });
+      out[k] = d;
+    });
+    return out;
+  }
+  function unpack(data){
+    if (!data || !data.days) return data;
+    Object.keys(data.days).forEach(function(k){
+      var d = data.days[k];
+      if (d && Array.isArray(d.picks)) d.picks = d.picks.map(function(x){ return x && typeof x === "object" && !Array.isArray(x) ? [x.p, x.a == null ? null : x.a] : x; });
+    });
+    return data;
+  }
+  function snap(s){ return { id: s.id, exists: s.exists, data: function(){ return unpack(s.data()); }, metadata: {} }; }
   function stamp(path, body){
     // scores carry a top-level "last" time so readers only fetch players active this week
-    if (/^scores\//.test(path)) { body = Object.assign({}, body, { last: Date.now() }); }
+    if (/^scores\//.test(path)) { body = Object.assign({}, body, { last: Date.now() }); if (body.days) body.days = packDays(body.days); }
     return body;
   }
   function docApi(path){

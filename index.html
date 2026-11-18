@@ -606,6 +606,17 @@
   /* I don't know = throw it away */
   .idk{display:block;width:100%;margin-top:10px;padding:9px 10px;font-family:var(--px);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#9aa6c4;background:transparent;border:3px dashed var(--edge);cursor:pointer}
   .idk:hover,.idk:focus-visible{color:#e9edf7;border-color:#9aa6c4;outline:none}
+  /* nicknames */
+  .nickbox{margin:14px 0 10px;padding:12px;background:#0b0f1c;border:3px solid #05060b;box-shadow:inset 0 0 0 2px var(--gold),4px 4px 0 #05060b}
+  .nickbox.hidden{display:none}
+  .nicklbl{font-family:var(--px);font-size:10px;line-height:1.6;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .nicklbl b{color:#e9edf7}
+  .nickrow{display:flex;gap:8px}
+  .nickin{flex:1;min-width:0;font-family:var(--vt);font-size:22px;color:#e9edf7;background:#05060b;border:3px solid #05060b;box-shadow:inset 0 0 0 2px var(--edge);padding:4px 10px;outline:none}
+  .nickin:focus{box-shadow:inset 0 0 0 2px var(--gold)}
+  .nickrow .btn{width:auto;margin:0;padding:0 16px}
+  .nickmsg{margin-top:6px;font-family:var(--vt);font-size:17px;color:#9aa6c4}
+  .nickmsg.bad{color:var(--red)}
   /* daily reset clock */
   .resetbar{display:flex;align-items:center;justify-content:center;gap:12px;margin:-6px 0 16px;padding:8px 12px;background:#05060b;border:3px solid #05060b;box-shadow:inset 0 0 0 2px var(--edge),4px 4px 0 #05060b;font-family:var(--px);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#9aa6c4}
   .resetbar b{font-family:var(--px);font-size:16px;color:var(--gold);letter-spacing:.08em;text-shadow:2px 2px 0 #3a2a00;min-width:9ch;text-align:center}
@@ -833,6 +844,7 @@
     <div class="sect">Your season</div>
     <div id="statsResult"></div>
     <div class="sect">Leaderboard</div>
+    <div class="nickbox hidden" id="nickBox"></div>
     <div class="board" id="boardRes"></div>
     <div class="sect">Play by play</div>
     <div class="drives" id="drives"></div>
@@ -1830,7 +1842,6 @@
       if(u && u.isOwner && await u.isOwner()){ DEV.owner=true; $("btnDev").classList.remove("hidden"); }
     }catch(e){}
     setAuth({state:"in",name:name,id:ctx.id});
-    try{ window.DEEPBALL_AUTH.saveName(name); }catch(e){}
     try{
       profileRef=ctx.db.doc("data/users/"+ctx.id+"/profile");
       var snap=await profileRef.get(), remote=snap.exists && snap.data() && snap.data().stats;
@@ -1874,7 +1885,7 @@
       h+='<div class="sub">Your '+(st.cur?st.cur+'-day streak, ':'')+'stats and kits are only saved on this device.</div>';
       h+='<button class="prime" data-a="signin">Continue with Google</button>';
     }
-    h+='<button data-a="stats">Your stats</button><button data-a="locker">Locker room</button>';
+    h+='<button data-a="stats">Your stats</button><button data-a="locker">Locker room</button><button data-a="nick">Leaderboard nickname'+(MYNICK?': '+esc(MYNICK):'')+'</button>';
     if(AUTH.state==="in" && window.DEEPBALL_AUTH) h+='<button data-a="signout">Sign out</button>';
     if(AUTH.state==="in") h+='<button class="danger" data-a="del">'+(delArm?"Tap again: delete everything":"Delete my data")+'</button>';
     m.innerHTML=h; m.classList.remove("hidden");
@@ -1884,6 +1895,7 @@
         var a=x.getAttribute("data-a");
         if(a==="signin"){ closeAcctMenu(); doSignIn(); }
         else if(a==="stats"){ closeAcctMenu(); if(!inGame()){ renderStats($("statsHome")); show("stats"); } }
+        else if(a==="nick"){ closeAcctMenu(); openNickDialog(); }
         else if(a==="locker"){ closeAcctMenu(); if(!inGame()) openLocker(); }
         else if(a==="signout"){ closeAcctMenu(); window.DEEPBALL_AUTH.signOut(); }
         else if(a==="del"){ if(!delArm){ delArm=true; openAcctMenu(); } else { delArm=false; closeAcctMenu(); deleteMyData(); } }
@@ -1917,6 +1929,8 @@
       if(ctx && ctx!=="__timeout" && ctx.id){
         try{ await ctx.db.doc("data/users/"+ctx.id+"/profile").delete(); }catch(e){}
         try{ await ctx.db.doc("scores/"+ctx.id).delete(); }catch(e){}
+        try{ await ctx.db.doc("nicks/"+ctx.id).delete(); }catch(e){}
+        MYNICK=null; nickLoaded=false; delete nameCache[ctx.id];
       }
     }catch(e){}
     S.remoteDone=null; applySkins(); show("home");
@@ -2130,7 +2144,7 @@
     var sims=simField(key, Math.max(60, 400-8*others)).map(function(y){ return {y:y,sim:true}; });
     renderDist(real.concat(sims),counted,note,{real:others,live:live});
     paintRarity();
-    renderBoard($("boardRes"),"day");
+    renderBoard($("boardRes"),"day"); paintNickBox();
   }
 
   function renderDist(all,mine,note,info){
@@ -2578,11 +2592,70 @@
       return {id:r.id,y:y,t:t,n:n};
     }).filter(function(x){return x.n>0;}).sort(function(a,b){ return (b.y-a.y)||(b.t-a.t)||(b.n-a.n); });
   }
-  var nameCache={};
+  /* ---------- nicknames: the only names the leaderboard ever shows ---------- */
+  var nameCache={}, MYNICK=null, nickLoaded=false;
   async function namesFor(ids){
     var need=ids.filter(function(id){ return !(id in nameCache); });
-    if(need.length){ try{ var u=await window.claude.use("user"); if(u && u.profiles){ var ps=await u.profiles(need)||{}; need.forEach(function(id){ nameCache[id]=(ps[id] && ps[id].name)||""; }); } }catch(e){} }
+    if(need.length){
+      var ctx=await timeout(dbCtx(),5000);
+      if(ctx && ctx!=="__timeout") await Promise.all(need.map(async function(id){
+        try{ var sn=await ctx.db.doc("nicks/"+id).get(); nameCache[id]=(sn.exists && sn.data() && cleanNick(sn.data().name))||""; }catch(e){ nameCache[id]=""; }
+      }));
+    }
     return nameCache;
+  }
+  var NICK_BAD=["fuck","shit","bitch","cunt","nigg","fag","retard","whore","slut","dick","pussy","cock","rape","nazi","hitler","kkk","porn","sex"];
+  function cleanNick(v){ v=String(v||"").replace(/\s+/g," ").trim(); return /^[A-Za-z0-9 _.\-]{2,16}$/.test(v)?v:""; }
+  function nickProblem(v){
+    var c=String(v||"").replace(/\s+/g," ").trim();
+    if(c.length<2) return "At least 2 characters.";
+    if(c.length>16) return "16 characters max.";
+    if(!/^[A-Za-z0-9 _.\-]+$/.test(c)) return "Letters, numbers, spaces, _ . - only.";
+    var flat=c.toLowerCase().replace(/[^a-z0-9]/g,"").replace(/0/g,"o").replace(/1/g,"i").replace(/3/g,"e").replace(/4/g,"a").replace(/5/g,"s").replace(/7/g,"t");
+    for(var i=0;i<NICK_BAD.length;i++) if(flat.indexOf(NICK_BAD[i])>=0) return "Pick a different nickname.";
+    if(/moonball|admin|official|nfl/.test(flat)) return "That one\u2019s reserved \u2014 pick another.";
+    return "";
+  }
+  async function loadMyNick(){
+    if(nickLoaded) return MYNICK;
+    var ctx=await timeout(dbCtx(),5000);
+    if(ctx && ctx!=="__timeout" && ctx.id){ try{ var sn=await ctx.db.doc("nicks/"+ctx.id).get(); MYNICK=(sn.exists && sn.data() && cleanNick(sn.data().name))||null; nameCache[ctx.id]=MYNICK||""; }catch(e){} nickLoaded=true; }
+    return MYNICK;
+  }
+  async function saveNick(v){
+    var bad=nickProblem(v); if(bad) return bad;
+    var nick=v.replace(/\s+/g," ").trim();
+    var ctx=await timeout(dbCtx(),5000);
+    if(!ctx || ctx==="__timeout" || !ctx.id) return "Can\u2019t save right now \u2014 check your connection.";
+    try{ await ctx.db.doc("nicks/"+ctx.id).set({name:nick,at:Date.now()}); }catch(e){ return "Couldn\u2019t save that nickname."; }
+    MYNICK=nick; nickLoaded=true; nameCache[ctx.id]=nick; return "";
+  }
+  function nickFormHTML(cur,msg){
+    return '<div class="nicklbl">'+(cur?"Leaderboard nickname":"Pick a nickname for the leaderboard")+'</div>'+
+      '<div class="nickrow"><input class="nickin" maxlength="16" placeholder="e.g. DeepCutDan" value="'+esc(cur||"")+'"><button class="btn nicksave">Save</button></div>'+
+      '<div class="nickmsg">'+(msg||"Players only ever see your nickname, never your real name.")+'</div>';
+  }
+  function wireNickForm(host,after){
+    var inp=host.querySelector(".nickin"), btn=host.querySelector(".nicksave"), msg=host.querySelector(".nickmsg");
+    async function go(){ btn.disabled=true; var err=await saveNick(inp.value); btn.disabled=false;
+      if(err){ msg.textContent=err; msg.classList.add("bad"); return; }
+      msg.classList.remove("bad"); if(after) after(); }
+    btn.addEventListener("click",go);
+    inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); go(); } });
+  }
+  async function paintNickBox(){
+    var box=$("nickBox"); if(!box) return;
+    var ctx=await timeout(dbCtx(),5000);
+    if(!ctx || ctx==="__timeout" || !ctx.id){ box.classList.add("hidden"); return; }
+    await loadMyNick();
+    if(MYNICK){ box.classList.add("hidden"); return; }
+    box.innerHTML=nickFormHTML(null); box.classList.remove("hidden");
+    wireNickForm(box,function(){ box.innerHTML='<div class="nicklbl">You\u2019re on the board as <b>'+esc(MYNICK)+'</b></div>'; setTimeout(function(){ box.classList.add("hidden"); },2500); renderBoard($("boardRes"),"day"); });
+  }
+  function openNickDialog(){
+    dialog('<h3>Leaderboard nickname</h3><div id="nickDlg">'+nickFormHTML(MYNICK)+'</div>');
+    var host=$("nickDlg");
+    wireNickForm(host,function(){ host.querySelector(".nickmsg").textContent="Saved \u2014 you\u2019re now "+MYNICK+"."; });
   }
   async function renderBoard(el,mode){
     if(!el) return;
@@ -2597,13 +2670,13 @@
     var nm=await namesFor(show.map(function(x){return x.id;}));
     var h='<div class="lbrow lbhead"><span></span><span></span><span class="nm">Player</span><span class="td">TD</span><span class="yd">Yds</span></div>';
     show.forEach(function(x){
-      var rank=list.indexOf(x)+1, isMe=x.id===me, name=isMe?"You":(nm[x.id]||"Player");
-      h+='<div class="lbrow'+(isMe?" me":"")+(rank===1?" top1":"")+'"><span class="rk">'+(rank===1?"\u{1F451}":"#"+rank)+'</span>'+avHTML(isMe?(AUTH.name||"You"):name)+
+      var rank=list.indexOf(x)+1, isMe=x.id===me, name=nm[x.id]||"Player";
+      h+='<div class="lbrow'+(isMe?" me":"")+(rank===1?" top1":"")+'"><span class="rk">'+(rank===1?"\u{1F451}":"#"+rank)+'</span>'+avHTML(name)+
          '<span class="nm"></span><span class="td">'+x.t+'</span><span class="yd">'+x.y+'</span></div>';
     });
     el.innerHTML=h+'<div class="lbnote">'+list.length+' player'+(list.length===1?"":"s")+(mode==="week"?" over the last 7 days (total yards)":" today")+(myIdx>=0?' \u00B7 you\u2019re #'+(myIdx+1):"")+'</div>';
     var rows=el.querySelectorAll(".lbrow:not(.lbhead) .nm");
-    show.forEach(function(x,i){ rows[i].textContent = x.id===me ? "You"+(AUTH.name?" ("+AUTH.name.split(" ")[0]+")":"") : (nm[x.id]||"Player"); });
+    show.forEach(function(x,i){ rows[i].textContent = x.id===me ? "You"+(nm[x.id]?" ("+nm[x.id]+")":"") : (nm[x.id]||"Player"); });
   }
   var LBMODE="day";
   async function openBoard(){

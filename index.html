@@ -794,6 +794,15 @@
   .slam .fl{background:rgba(255,63,164,.35)!important}
   .kick{color:var(--gold)!important;box-shadow:inset 0 0 0 3px var(--pink),4px 4px 0 var(--ink)}
   .lbrow.me{background:rgba(61,245,255,.10)}
+
+  /* money: optional, low-key */
+  .footbtn.support{color:#0b0620;background:#3df5ff}
+  .presented{margin:10px 0 4px;padding:8px 12px;text-align:center;font-family:var(--vt);font-size:19px;color:#c9b8ff;border:2px dashed var(--edge)}
+  .presented .pk{font-family:var(--px);font-size:9px;color:#b3a6e0;text-transform:uppercase;letter-spacing:.04em;margin-right:6px}
+  .presented a,.presented b{color:var(--gold);font-weight:400}
+  .presented .pl{display:block;font-size:17px;color:#9b8fd0}
+  .supportline{text-align:center;font-family:var(--vt);font-size:19px;color:#b3a6e0;margin:16px 0 4px}
+  .supportline a{color:#3df5ff}
 </style>
 </head>
 <body>
@@ -834,6 +843,7 @@
     </div>
   </header>
   <div class="resetbar" id="resetBar"><span class="rl">Daily reset in</span><b id="resetClock">--:--:--</b><span class="rz">midnight ET</span></div>
+  <div class="presented hidden" id="presentedHome"></div>
 
   <!-- ================= HOME ================= -->
   <section id="home">
@@ -864,6 +874,7 @@
     <footer class="sitefoot">
       <div class="footlinks">
         <button type="button" class="footbtn" id="btnContact">Contact us</button>
+        <button type="button" class="footbtn support hidden" id="btnSupport">☕ Support Moonball</button>
         <button type="button" class="footbtn gold" id="btnSponsor">Sponsor Moonball</button>
         <button type="button" class="footbtn" id="btnPrivacy">Privacy</button>
       </div>
@@ -1001,12 +1012,14 @@
     <div class="film" id="film"></div>
     <div class="share" id="shareGrid"></div>
     <div class="copied" id="copied"></div>
+    <div class="presented hidden" id="presentedRes"></div>
     <button class="btn chbtn" id="btnChallenge">Challenge a friend</button>
     <div class="homegrid" style="grid-template-columns:1fr 1fr!important">
       <button class="btn" id="btnCopy">Copy result</button>
       <button class="btn" id="btnCard" style="background:var(--gold)!important">Share card</button>
     </div>
     <button class="btn ghost" id="btnLocker2">Locker room</button>
+    <p class="supportline hidden" id="supportLine">Moonball is free every day. If you’re enjoying it, <a id="supportLink" target="_blank" rel="noopener">buy us a coffee ☕</a></p>
     <button class="btn ghost" id="btnHome">Back to the start</button>
   </section>
 </div>
@@ -3090,7 +3103,13 @@
   if(window.visualViewport) window.visualViewport.addEventListener("resize",function(){ if(document.activeElement===$("answerInput")) keepInView(); });
 
   /* ---------- contact, sponsors, socials, privacy ---------- */
-  var CONTACT={ email:"moonballhq@gmail.com", socials:{ instagram:"moonballhq", tiktok:"moonballhq", x:"", youtube:"" } };
+  var CONTACT={ email:"moonballhq@gmail.com", socials:{ instagram:"moonballhq", tiktok:"moonballhq", x:"", youtube:"" },
+    support:"" };   // tip-jar link (Ko-fi / Buy Me a Coffee / Stripe Payment Link). Empty = hidden.
+  /* Sponsor slots: "YYYY-MM-DD" (ET day) or "*" (every day). Empty = nothing shown.
+     e.g. SPONSORS["2026-11-27"]={name:"Joe's Sports Bar",url:"https://example.com",line:"Thanksgiving Drive"}; */
+  var SPONSORS={};
+  function sponsorToday(){ var d=todayKey(); return SPONSORS[d]||SPONSORS["*"]||null; }
+  function safeUrl(u){ return /^https:\/\//i.test(u||"")?u:""; }
   var SOC_LABEL={instagram:"Instagram",tiktok:"TikTok",x:"X",youtube:"YouTube"};
   var SOC_URL={instagram:"https://instagram.com/",tiktok:"https://tiktok.com/@",x:"https://x.com/",youtube:"https://youtube.com/@"};
   function paintSocials(){
@@ -3128,6 +3147,17 @@
   }
   $("btnContact").addEventListener("click",openContact);
   $("btnSponsor").addEventListener("click",openSponsor);
+  function paintMoney(){
+    var sup=safeUrl(CONTACT.support);
+    $("btnSupport").classList.toggle("hidden",!sup);
+    $("supportLine").classList.toggle("hidden",!sup); if(sup) $("supportLink").href=sup;
+    var sp=sponsorToday(), h="";
+    if(sp && sp.name){ var u=safeUrl(sp.url);
+      h='<span class="pk">Today\u2019s drive presented by</span> '+(u?'<a href="'+esc(u)+'" target="_blank" rel="sponsored noopener">'+esc(sp.name)+'</a>':'<b>'+esc(sp.name)+'</b>')+(sp.line?'<span class="pl">'+esc(sp.line)+'</span>':''); }
+    ["presentedHome","presentedRes"].forEach(function(id){ var el=$(id); el.innerHTML=h; el.classList.toggle("hidden",!h); });
+  }
+  $("btnSupport").addEventListener("click",function(){ var u=safeUrl(CONTACT.support); if(u) window.open(u,"_blank","noopener"); });
+  paintMoney();
   $("btnPrivacy").addEventListener("click",openPrivacy);
   paintSocials();
 

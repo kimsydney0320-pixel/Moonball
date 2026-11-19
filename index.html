@@ -674,6 +674,25 @@
   .replay{position:relative}
   .replaytag{position:absolute;left:10px;bottom:10px;font-family:var(--px);font-size:9px;color:#05060b;background:var(--gold);padding:6px 8px;border:3px solid #05060b}
   @media (max-width:520px){ .dca{font-size:16px} .vsc{font-size:16px} }
+  /* stadiums */
+  .fieldbox.cam .crowd{background-image:linear-gradient(90deg,var(--cr1,#c0392b) 0 4px,transparent 4px 8px,var(--cr2,#f1c40f) 8px 12px,transparent 12px 16px,var(--cr3,#3498db) 16px 20px,transparent 20px 24px,var(--cr4,#ecf0f1) 24px 28px,transparent 28px 32px),
+    linear-gradient(90deg,var(--cr3,#2ecc71) 0 4px,transparent 4px 12px,var(--cr1,#e67e22) 12px 16px,transparent 16px 20px,var(--cr2,#9b59b6) 20px 24px,transparent 24px 32px)!important}
+  .fieldbox[class*="wx-"]::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3}
+  .wx-snow::after,.wx-snowheavy::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' shape-rendering='crispEdges'%3E%3Crect x='10' y='8' width='4' height='4' fill='%23fff'/%3E%3Crect x='56' y='30' width='4' height='4' fill='%23fff'/%3E%3Crect x='30' y='62' width='4' height='4' fill='%23eaf4ff'/%3E%3Crect x='76' y='72' width='4' height='4' fill='%23fff'/%3E%3C/svg%3E");animation:fall 5s linear infinite}
+  .wx-snowheavy::after{background-size:60px 60px;animation-duration:2.6s;opacity:.95}
+  .wx-rain::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' shape-rendering='crispEdges'%3E%3Crect x='8' y='4' width='2' height='12' fill='%2399c8ff' opacity='.7'/%3E%3Crect x='38' y='30' width='2' height='12' fill='%2399c8ff' opacity='.7'/%3E%3C/svg%3E");animation:fall 0.7s linear infinite;background-color:rgba(10,30,50,.18)}
+  @keyframes fall{from{background-position:0 0}to{background-position:-20px 90px}}
+  .wx-lights::after{background:radial-gradient(ellipse 30% 40% at 8% 0,rgba(255,255,230,.35),transparent 70%),radial-gradient(ellipse 30% 40% at 92% 0,rgba(255,255,230,.35),transparent 70%),linear-gradient(rgba(0,0,20,.18),rgba(0,0,20,.18))}
+  .wx-sunset::after{background:linear-gradient(180deg,rgba(255,120,40,.38),rgba(255,180,60,.12) 35%,transparent 60%)}
+  .wx-dome::after{background:linear-gradient(180deg,rgba(0,0,0,.45),transparent 30%),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 4px,transparent 4px 60px)}
+  .wx-neon::after{background:repeating-linear-gradient(180deg,rgba(255,79,216,.06) 0 2px,transparent 2px 6px);box-shadow:inset 0 0 40px rgba(54,241,255,.35)}
+  .wx-sparkle::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80' shape-rendering='crispEdges'%3E%3Crect x='20' y='14' width='4' height='4' fill='%23ffd84d'/%3E%3Crect x='90' y='50' width='4' height='4' fill='%23fff1b8'/%3E%3C/svg%3E");animation:twinkle 1.6s steps(2) infinite}
+  .wx-space .crowd{background:#05060b!important;background-image:radial-gradient(circle at 12% 40%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 63% 60%,#ffd84d 0 1px,transparent 1.5px),radial-gradient(circle at 38% 30%,#cfe3ff 0 1px,transparent 1.5px)!important;background-size:37px 28px,53px 28px,29px 28px!important}
+  .wx-space::after{background:radial-gradient(circle at 88% 6%,rgba(122,200,255,.55) 0 14px,rgba(122,200,255,.15) 15px 26px,transparent 27px)}
+  @keyframes twinkle{50%{opacity:.3}}
+  .lk.st .ministad{display:block;width:100%;max-width:150px;height:auto;margin:6px auto 8px;image-rendering:pixelated;border:3px solid #05060b}
+  .unl .ministad{width:64px;height:32px;border:3px solid #05060b;flex:none}
+  @media (prefers-reduced-motion:reduce){ .fieldbox[class*="wx-"]::after{animation:none} }
   /* logo + footer */
   .brand .mark{width:28px;height:28px;display:block;image-rendering:pixelated}
   .heromark{display:block;width:120px;height:120px;margin:0 auto 6px;image-rendering:pixelated}
@@ -863,11 +882,12 @@
   <!-- ================= LOCKER ================= -->
   <section id="locker" class="hidden">
     <div class="mast" style="padding-bottom:6px"><span class="kick">Locker room</span>
-      <p style="margin-top:10px">Unlock new quarterbacks and receivers by playing every day and going deep. Higher tiers take longer streaks and bigger drives. Tap one you've unlocked to put it on the field.</p>
+      <p style="margin-top:10px">Unlock new quarterbacks, receivers and stadiums by playing every day and going deep. Higher tiers take longer streaks and bigger drives. Tap one you've unlocked to put it on the field.</p>
       <p style="margin-top:6px;font-size:17px!important;opacity:.7">Fan-inspired kits. Not affiliated with the NFL, its teams or players.</p></div>
     <div id="lockNudge"></div>
     <div class="sect">Quarterbacks</div><div class="lgrid" id="lockQB"></div>
     <div class="sect">Receivers</div><div class="lgrid" id="lockWR"></div>
+    <div class="sect">Stadiums</div><div class="lgrid" id="lockST"></div>
     <button class="btn ghost" id="btnLockerBack">Back</button>
   </section>
 
@@ -1152,6 +1172,38 @@
     {id:"wr-cheetah",name:"Cheetah",tier:"Mythic",num:10,jersey:"#008e97",helmet:"#ffffff",stripe:"#fc4c02",numc:"#ffffff",pants:"#ffffff",aura:"#fc4c02",holo:true,req:{k:"best",n:300,txt:"Gain 300+ yards in one drive"}},
     {id:"wr-cheatcode",name:"Cheat Code",tier:"Mythic",num:1,jersey:"#101820",helmet:"#fb4f14",stripe:"#101820",numc:"#fb4f14",pants:"#ffffff",aura:"#fb4f14",holo:true,req:{k:"maxBombs",n:3,txt:"Throw 3 Bombs in one drive"}}
   ].map(kit);
+  /* Stadiums: field cosmetics. Fan-inspired, no real names or logos. */
+  var STADIUMS=[
+    {id:"st-home",name:"Home Field",tier:"Common",req:null,blurb:"Where every drive starts"},
+    {id:"st-fnl",name:"Friday Night Lights",tier:"Common",req:{k:"days",n:1,txt:"Finish your first daily drive"},blurb:"Small town, big lights",
+      turf:["#24703a","#2a7d41"],speck:["#1f6331","#368f4c"],ez:["#5a1220","#6e1828"],ezText:"#f5c542",crowd:["#5a1220","#f5c542","#ffffff","#5a1220"],fx:"lights"},
+    {id:"st-sandlot",name:"Sandlot",tier:"Common",req:{k:"tds",n:1,txt:"Score your first touchdown"},blurb:"Dirt patches and pickup games",
+      turf:["#5f8f3a","#6a9a40"],speck:["#8a6a3a","#a07c45"],specks:1100,ez:["#7a5a30","#866438"],ezText:"#fff1d6",line:"#f4efe0",crowd:["#c76b2a","#e9d7a5","#4a6b8a","#7a5a30"]},
+    {id:"st-snow",name:"Snow Globe",tier:"Rare",req:{k:"days",n:3,txt:"Play 3 daily drives"},blurb:"Flurries at kickoff",
+      turf:["#3c8a4a","#449552"],speck:["#e8f2f7","#ffffff"],specks:1300,ez:["#1d3b2a","#24452f"],ezText:"#ffb612",crowd:["#203731","#ffb612","#ffffff","#203731"],fx:"snow"},
+    {id:"st-rain",name:"Rain City",tier:"Rare",req:{k:"bombs",n:3,txt:"Throw 3 Bombs"},blurb:"It never stops raining here",
+      turf:["#1f5e35","#23683b"],speck:["#2c7a48","#18502c"],ez:["#0b2a40","#10334d"],ezText:"#7ed957",crowd:["#0b2a40","#69be28","#a5acaf","#0b2a40"],fx:"rain"},
+    {id:"st-desert",name:"Desert Dome",tier:"Rare",req:{k:"best",n:150,txt:"Gain 150+ yards in one drive"},blurb:"Roof open, sun going down",
+      turf:["#3a8c46","#42964e"],ez:["#8a2a1e","#97331f"],ezText:"#ffd8a8",crowd:["#97233f","#ffb612","#ffffff","#97233f"],fx:"sunset"},
+    {id:"st-astro",name:"Astro Turf '72",tier:"Epic",req:{k:"streak",n:3,txt:"Reach a 3-day streak"},blurb:"Wall-to-wall plastic grass",
+      turf:["#2fa64a","#2fa64a"],speck:["#2a9a43","#36b052"],specks:140,ez:["#c4561f","#d4632a"],ezText:"#1d2f5a",crowd:["#c4561f","#f2b134","#1d2f5a","#c4561f"]},
+    {id:"st-bayou",name:"Bayou Dome",tier:"Epic",req:{k:"maxTd",n:2,txt:"Score 2 TDs in one drive"},blurb:"Loudest roof in the league",
+      turf:["#2c8040","#338a47"],ez:["#101820","#1a2430"],ezText:"#d3bc8d",crowd:["#d3bc8d","#101820","#7b3fa0","#2a9d5c"],fx:"dome"},
+    {id:"st-milehigh",name:"Mile-High Sunset",tier:"Epic",req:{k:"best",n:200,txt:"Gain 200+ yards in one drive"},blurb:"Thin air, long throws",
+      turf:["#34874a","#3b9150"],ez:["#0a2343","#0f2c52"],ezText:"#fb4f14",crowd:["#fb4f14","#0a2343","#ffffff","#fb4f14"],fx:"sunset"},
+    {id:"st-neon",name:"Neon Night",tier:"Epic",req:{k:"bombs",n:8,txt:"Throw 8 Bombs"},blurb:"Synthwave under the lights",
+      turf:["#0e1a2e","#111f36"],speck:["#162a48","#0b1424"],ez:["#2a0b3d","#33104a"],ezText:"#ff4fd8",line:"#36f1ff",num:"rgba(54,241,255,.85)",crowd:["#ff4fd8","#36f1ff","#f7e94f","#2a0b3d"],bg:"#070b16",fx:"neon"},
+    {id:"st-blizzard",name:"Blizzard Classic",tier:"Legendary",req:{k:"streak",n:7,txt:"Reach a 7-day streak"},blurb:"Find the yard lines if you can",
+      turf:["#c9d8de","#d6e3e8"],speck:["#ffffff","#b8c9d0"],specks:1700,ez:["#8fa3ad","#9aaeb7"],ezText:"#0b2265",line:"#3a5b8c",num:"rgba(11,34,101,.75)",crowd:["#0b2265","#a71930","#ffffff","#0b2265"],fx:"snowheavy"},
+    {id:"st-gold",name:"Gold Rush",tier:"Legendary",req:{k:"best",n:250,txt:"Gain 250+ yards in one drive"},blurb:"End zones paved in gold",
+      ez:["#b8860b","#d4a017"],ezText:"#ffffff",crowd:["#aa0000","#b3995d","#ffffff","#aa0000"],fx:"sparkle"},
+    {id:"st-moon",name:"Moon Base",tier:"Mythic",req:{k:"hmHits",n:3,txt:"Catch 3 Hail Marys"},blurb:"Low gravity. Throws hang forever",
+      turf:["#6b6f7a","#747884"],speck:["#565a63","#8a8e99"],specks:650,ez:["#2a2d36","#33363f"],ezText:"#fff1b8",line:"#e9edf7",num:"rgba(233,237,247,.8)",crowd:["#05060b","#05060b","#05060b","#05060b"],bg:"#05060b",fx:"space",craters:true,lowGrav:true},
+    {id:"st-supernova",name:"Supernova",tier:"Mythic",req:{k:"best",n:300,txt:"Gain 300+ yards in one drive"},blurb:"A field made of starlight",
+      turf:["#1b0f3a","#21124a"],speck:["#ff7ad9","#7ac8ff"],specks:320,ez:["#3a0f5a","#45126a"],ezText:"#ffd84d",line:"#ffd84d",num:"rgba(255,216,77,.85)",crowd:["#05060b","#05060b","#05060b","#05060b"],bg:"#05060b",fx:"space"}
+  ];
+  var ST_DEF={turf:["#2f8a3e","#37994a"],speck:["#287a35","#45a957"],specks:420,ez:["#0f4a2a","#135a33"],ezText:"#ffffff",line:"#f2f2f2",num:"rgba(255,255,255,.85)",crowd:["#c0392b","#f1c40f","#3498db","#ecf0f1"],bg:"#0d2a1a",fx:""};
+  function stTheme(st){ var o={}; Object.keys(ST_DEF).forEach(function(k){ o[k]=(st&&st[k]!=null)?st[k]:ST_DEF[k]; }); o.craters=!!(st&&st.craters); o.lowGrav=!!(st&&st.lowGrav); o.id=st?st.id:"st-home"; return o; }
   function skinById(list,id){ for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i]; return list[0]; }
 
   /* =====================================================================
@@ -1204,42 +1256,53 @@
     svg.setAttribute("shape-rendering","crispEdges");
     var FONT="'Press Start 2P', monospace";
     var defs=el("defs",{},svg);
-    var pat=el("pattern",{id:pfx+"chk",width:16,height:16,patternUnits:"userSpaceOnUse"},defs);
-    el("rect",{width:16,height:16,fill:"#0f4a2a"},pat);
-    el("rect",{width:8,height:8,fill:"#135a33"},pat); el("rect",{x:8,y:8,width:8,height:8,fill:"#135a33"},pat);
-
-    // turf: banded greens + deterministic pixel specks
-    for(var i=0;i<20;i++) el("rect",{x:X(i*5),y:0,width:50,height:H,fill:i%2?"#2f8a3e":"#37994a"},svg);
-    var tr=rng(hashStr("turf-"+pfx));
-    for(var k=0;k<420;k++){
-      var tx0=snap(100+tr()*1000), ty0=snap(tr()*H);
-      el("rect",{x:tx0,y:ty0,width:4,height:4,fill:tr()<.5?"#287a35":"#45a957"},svg);
+    var base=el("g",{},svg), lowGrav=false;
+    function drawBase(th){
+      while(base.firstChild) base.removeChild(base.firstChild);
+      var oldPat=document.getElementById(pfx+"chk"); if(oldPat) oldPat.parentNode.removeChild(oldPat);
+      var pat=el("pattern",{id:pfx+"chk",width:16,height:16,patternUnits:"userSpaceOnUse"},defs);
+      el("rect",{width:16,height:16,fill:th.ez[0]},pat);
+      el("rect",{width:8,height:8,fill:th.ez[1]},pat); el("rect",{x:8,y:8,width:8,height:8,fill:th.ez[1]},pat);
+      // turf: banded + deterministic pixel specks
+      for(var i=0;i<20;i++) el("rect",{x:X(i*5),y:0,width:50,height:H,fill:i%2?th.turf[0]:th.turf[1]},base);
+      var tr=rng(hashStr("turf-"+pfx+th.id));
+      for(var k=0;k<th.specks;k++){
+        var tx0=snap(100+tr()*1000), ty0=snap(tr()*H);
+        el("rect",{x:tx0,y:ty0,width:4,height:4,fill:tr()<.5?th.speck[0]:th.speck[1]},base);
+      }
+      if(th.craters){
+        var cr=rng(hashStr("crater-"+pfx));
+        for(var c=0;c<16;c++){
+          var cx0=snap(130+cr()*940), cy0=snap(30+cr()*(H-60)), rad=2+Math.floor(cr()*4);
+          for(var dy=-rad;dy<=rad;dy++) for(var dx=-rad;dx<=rad;dx++){ var dd=dx*dx+dy*dy; if(dd>rad*rad) continue;
+            el("rect",{x:cx0+dx*4,y:cy0+dy*4,width:4,height:4,fill:dd>(rad-1)*(rad-1)?"#8a8e99":"#4a4e57"},base); }
+        }
+      }
+      // end zones
+      el("rect",{x:0,y:0,width:100,height:H,fill:"url(#"+pfx+"chk)"},base);
+      el("rect",{x:1100,y:0,width:100,height:H,fill:"url(#"+pfx+"chk)"},base);
+      var tl=el("text",{x:50,y:MID,transform:"rotate(-90 50 "+MID+")","text-anchor":"middle","dominant-baseline":"central",
+        "font-family":FONT,"font-size":30,fill:th.ezText,stroke:"#0b0d14","stroke-width":6,"paint-order":"stroke"},base); tl.textContent="MOON";
+      var tr2=el("text",{x:1150,y:MID,transform:"rotate(90 1150 "+MID+")","text-anchor":"middle","dominant-baseline":"central",
+        "font-family":FONT,"font-size":30,fill:th.ezText,stroke:"#0b0d14","stroke-width":6,"paint-order":"stroke"},base); tr2.textContent="BALL";
+      // lines
+      el("rect",{x:0,y:TOP-8,width:W,height:8,fill:th.line},base);
+      el("rect",{x:0,y:BOT,width:W,height:8,fill:th.line},base);
+      for(var y=0;y<=100;y+=5) el("rect",{x:X(y)-2,y:TOP,width:4,height:BOT-TOP,fill:th.line,opacity:y%10?.55:1},base);
+      for(var h=1;h<100;h++){ if(h%5===0) continue;
+        [TOP,BOT-8,MID-44,MID+36].forEach(function(yy){ el("rect",{x:X(h)-2,y:yy,width:4,height:8,fill:th.line,opacity:.58},base); });
+      }
+      for(var n=10;n<100;n+=10){
+        var lab=String(n<=50?n:100-n);
+        [[TOP+40,0],[BOT-40,180]].forEach(function(a){
+          var t=el("text",{x:X(n),y:a[0],"text-anchor":"middle","dominant-baseline":"central",transform:"rotate("+a[1]+" "+X(n)+" "+a[0]+")",
+            "font-family":FONT,"font-size":22,fill:th.num},base);
+          t.textContent=lab;
+        });
+      }
+      lowGrav=th.lowGrav;
     }
-    // end zones
-    el("rect",{x:0,y:0,width:100,height:H,fill:"url(#"+pfx+"chk)"},svg);
-    el("rect",{x:1100,y:0,width:100,height:H,fill:"url(#"+pfx+"chk)"},svg);
-    var tl=el("text",{x:50,y:MID,transform:"rotate(-90 50 "+MID+")","text-anchor":"middle","dominant-baseline":"central",
-      "font-family":FONT,"font-size":30,fill:"#ffffff",stroke:"#0b0d14","stroke-width":6,"paint-order":"stroke"},svg); tl.textContent="MOON";
-    var tr2=el("text",{x:1150,y:MID,transform:"rotate(90 1150 "+MID+")","text-anchor":"middle","dominant-baseline":"central",
-      "font-family":FONT,"font-size":30,fill:"#ffffff",stroke:"#0b0d14","stroke-width":6,"paint-order":"stroke"},svg); tr2.textContent="BALL";
-    // lines
-    el("rect",{x:0,y:TOP-8,width:W,height:8,fill:"#f2f2f2"},svg);
-    el("rect",{x:0,y:BOT,width:W,height:8,fill:"#f2f2f2"},svg);
-    for(var y=0;y<=100;y+=5) el("rect",{x:X(y)-2,y:TOP,width:4,height:BOT-TOP,fill:y%10?"rgba(255,255,255,.55)":"#f2f2f2"},svg);
-    for(var h=1;h<100;h++){ if(h%5===0) continue;
-      el("rect",{x:X(h)-2,y:TOP,width:4,height:8,fill:"rgba(255,255,255,.6)"},svg);
-      el("rect",{x:X(h)-2,y:BOT-8,width:4,height:8,fill:"rgba(255,255,255,.6)"},svg);
-      el("rect",{x:X(h)-2,y:MID-44,width:4,height:8,fill:"rgba(255,255,255,.55)"},svg);
-      el("rect",{x:X(h)-2,y:MID+36,width:4,height:8,fill:"rgba(255,255,255,.55)"},svg);
-    }
-    for(var n=10;n<100;n+=10){
-      var lab=String(n<=50?n:100-n);
-      [[TOP+40,0],[BOT-40,180]].forEach(function(a){
-        var t=el("text",{x:X(n),y:a[0],"text-anchor":"middle","dominant-baseline":"central",transform:"rotate("+a[1]+" "+X(n)+" "+a[0]+")",
-          "font-family":FONT,"font-size":22,fill:"rgba(255,255,255,.85)"},svg);
-        t.textContent=lab;
-      });
-    }
+    drawBase(stTheme(null));
     // dynamic layers
     var fdl=el("rect",{x:0,y:TOP,width:8,height:BOT-TOP,fill:"#ffd84d"},svg);
     var los=el("rect",{x:0,y:TOP,width:8,height:BOT-TOP,fill:"#3ea2ff"},svg);
@@ -1311,7 +1374,7 @@
       trail.setAttribute("stroke",color);
       var len=trail.getTotalLength ? trail.getTotalLength() : Math.hypot(tx-sx,ty-sy);
       trail.setAttribute("opacity",0);
-      var peak=10+Math.min(yds,70)*2.2, dur=(420+Math.min(yds,70)*17)*slow, wind=300*(slow>1?1.25:1), t0=null;
+      var peak=(10+Math.min(yds,70)*2.2)*(lowGrav?1.8:1), dur=(420+Math.min(yds,70)*17)*slow, wind=300*(slow>1?1.25:1), t0=null;
       function qp(t){ var u=1-t; return [u*u*sx+2*u*t*cx+t*t*tx, u*u*sy+2*u*t*cy+t*t*ty]; }
       function frame(ts){
         if(t0===null) t0=ts;
@@ -1405,7 +1468,8 @@
       raf=requestAnimationFrame(f);
     }
     setLOS(START_YD);
-    return { setLOS:setLOS, throwBall:throwBall, sack:sack, throwAway:throwAway, intercept:intercept, cancel:cancel, setSkins:setSkins, get pos(){return pos;} };
+    function setStadium(st){ drawBase(stTheme(st)); }
+    return { setLOS:setLOS, throwBall:throwBall, sack:sack, throwAway:throwAway, intercept:intercept, cancel:cancel, setSkins:setSkins, setStadium:setStadium, get pos(){return pos;} };
   }
 
   /* =====================================================================
@@ -1847,6 +1911,7 @@
     s.maxTd=Math.max(s.maxTd||0,S.tds); s.maxBombs=Math.max(s.maxBombs||0,bombs);
     s.tiers=s.tiers||{};
     S.res.forEach(function(r){ s.tiers[r.tier]=(s.tiers[r.tier]||0)+1; });
+    s.hmHits=(s.hmHits||0)+S.res.filter(function(r){ return r.hm==="hit"; }).length;
     s.days[key]={y:y,t:S.tds,plays:S.res.map(ser)};
     saveStats(s); clearProg();
     return s;
@@ -1951,6 +2016,7 @@
       case "maxBombs": v=s.maxBombs||0; break;
       case "tds": v=s.tds||0; break;
       case "deepThrows": v=(t.film||0)+(t.deep||0)+(t.hail||0); break;
+      case "hmHits": v=s.hmHits||0; break;
     }
     return {v:v,n:req.n};
   }
@@ -1960,8 +2026,37 @@
     buildPlayer(svg,skin);
     return svg.outerHTML;
   }
+  function miniStadium(st){
+    var th=stTheme(st), h='<svg class="ministad" viewBox="0 0 60 30" width="60" height="30" shape-rendering="crispEdges" aria-hidden="true">';
+    h+='<rect width="60" height="30" fill="'+th.bg+'"/><rect y="0" width="60" height="5" fill="'+th.crowd[0]+'"/><rect x="'+(8)+'" y="1" width="3" height="3" fill="'+th.crowd[1]+'"/><rect x="24" y="1" width="3" height="3" fill="'+th.crowd[2]+'"/><rect x="44" y="1" width="3" height="3" fill="'+th.crowd[1]+'"/>';
+    for(var i=0;i<10;i++) h+='<rect x="'+(6+i*4.8)+'" y="5" width="4.8" height="25" fill="'+th.turf[i%2]+'"/>';
+    h+='<rect x="0" y="5" width="6" height="25" fill="'+th.ez[0]+'"/><rect x="54" y="5" width="6" height="25" fill="'+th.ez[0]+'"/>';
+    for(var j=1;j<10;j++) h+='<rect x="'+(6+j*4.8-.5)+'" y="5" width="1" height="25" fill="'+th.line+'" opacity=".7"/>';
+    if(th.fx==="snow"||th.fx==="snowheavy") h+='<rect x="12" y="9" width="1" height="1" fill="#fff"/><rect x="30" y="14" width="1" height="1" fill="#fff"/><rect x="45" y="20" width="1" height="1" fill="#fff"/><rect x="20" y="24" width="1" height="1" fill="#fff"/>';
+    if(th.fx==="space") h+='<rect x="5" y="1" width="1" height="1" fill="#fff"/><rect x="33" y="2" width="1" height="1" fill="#ffd84d"/><rect x="52" y="1" width="1" height="1" fill="#fff"/>';
+    if(th.craters) h+='<rect x="18" y="12" width="3" height="3" fill="#4a4e57"/><rect x="38" y="20" width="4" height="3" fill="#4a4e57"/>';
+    return h+'</svg>';
+  }
   function paintLocker(){
     var s=loadStats(), eqp=s.equip||{};
+    (function(){
+      var host=$("lockST"); if(!host) return; host.innerHTML="";
+      var cur=skinById(STADIUMS,eqp.stadium); if(!isUnlocked(s,cur)) cur=STADIUMS[0];
+      STADIUMS.forEach(function(st){
+        var un=isUnlocked(s,st), eq=cur.id===st.id, pr=progressOf(s,st.req);
+        var d=document.createElement("div");
+        d.className="lk st t-"+(KIT_TIERS[st.tier]||"chalk")+(un?"":" locked")+(eq?" eq":"");
+        d.innerHTML=miniStadium(st)+(un?"":'<span class="lock">\u{1F512}</span>')+
+          '<div class="ktier">'+st.tier+'</div><div class="nm">'+esc(st.name)+'</div><div class="rq">'+(st.req?esc(st.req.txt):esc(st.blurb))+'</div>'+
+          (!un ? '<div class="bar"><i style="width:'+Math.min(100,pr.v/pr.n*100)+'%"></i></div>' : '')+
+          '<div class="st">'+(eq?"Equipped":un?"Tap to equip":(Math.min(pr.v,pr.n)+" / "+pr.n))+'</div>';
+        if(un) d.addEventListener("click",function(){
+          var st2=loadStats(); st2.equip=st2.equip||{}; st2.equip.stadium=st.id; saveStats(st2);
+          applySkins(); paintLocker(); SFX.pop(); syncPush();
+        });
+        host.appendChild(d);
+      });
+    })();
     [["lockQB",QBS,"qb"],["lockWR",WRS,"wr"]].forEach(function(cfg){
       var host=$(cfg[0]); host.innerHTML="";
       var cur=skinById(cfg[1],eqp[cfg[2]]); if(!isUnlocked(s,cur)) cur=cfg[1][0];
@@ -1987,10 +2082,21 @@
     if(!isUnlocked(s,q)) q=QBS[0];
     if(!isUnlocked(s,w)) w=WRS[0];
     field.setSkins(q,w); hero.setSkins(q,w);
+    var st=skinById(STADIUMS,e.stadium); if(!isUnlocked(s,st)) st=STADIUMS[0];
+    [[field,$("gameBox")],[hero,$("heroBox")]].forEach(function(f){ styleStadium(f[0],f[1],st); });
+    if(typeof replayField!=="undefined" && replayField) styleStadium(replayField,$("replayWrap"),st);
+  }
+  function styleStadium(f,box,st){
+    if(f) f.setStadium(st);
+    if(!box) return;
+    var th=stTheme(st);
+    box.className=box.className.replace(/\bwx-\S+/g,"").trim()+(th.fx?" wx-"+th.fx:"");
+    box.style.setProperty("--cr1",th.crowd[0]); box.style.setProperty("--cr2",th.crowd[1]); box.style.setProperty("--cr3",th.crowd[2]); box.style.setProperty("--cr4",th.crowd[3]||th.crowd[0]);
+    box.style.background=th.bg;
   }
   function newUnlocks(){
     var s=loadStats(); s.seen=s.seen||[];
-    var fresh=QBS.concat(WRS).filter(function(k){ return k.req && isUnlocked(s,k) && s.seen.indexOf(k.id)<0; });
+    var fresh=QBS.concat(WRS).concat(STADIUMS).filter(function(k){ return k.req && isUnlocked(s,k) && s.seen.indexOf(k.id)<0; });
     if(fresh.length){ s.seen=s.seen.concat(fresh.map(function(k){return k.id;})); saveStats(s); }
     return fresh;
   }
@@ -2258,7 +2364,8 @@
     var fresh=fromSave?[]:newUnlocks();
     var more=fresh.length>3?fresh.length-3:0;
     $("unlocks").innerHTML=fresh.slice(0,3).map(function(k){
-      return '<div class="unl t-'+(KIT_TIERS[k.tier]||"chalk")+'">'+miniPlayer(k)+'<div><div class="k">Unlocked \u00B7 '+k.tier+' '+(QBS.indexOf(k)>=0?"QB":"WR")+'</div><div class="n">'+esc(k.name)+'</div></div></div>';
+      var isSt=STADIUMS.indexOf(k)>=0;
+      return '<div class="unl t-'+(KIT_TIERS[k.tier]||"chalk")+'">'+(isSt?miniStadium(k):miniPlayer(k))+'<div><div class="k">Unlocked \u00B7 '+k.tier+' '+(isSt?"Stadium":(QBS.indexOf(k)>=0?"QB":"WR"))+'</div><div class="n">'+esc(k.name)+'</div></div></div>';
     }).join("")+(more?'<button class="btn ghost" id="moreKits" style="margin-top:12px">+'+more+' more kits unlocked \u2014 open the locker room</button>':'');
     if(more) setTimeout(function(){ var mk=$("moreKits"); if(mk) mk.addEventListener("click",function(){ openLocker(); }); },0);
     if(fresh.length){ applySkins(); setTimeout(function(){ SFX.unlockJingle(); },400); }
@@ -3028,7 +3135,8 @@
     if(!best || best.r.pts<15){ box.classList.add("hidden"); return; }
     box.classList.remove("hidden");
     if(!replayField){ replayField=Field($("replayField"),"r"); }
-    var e=loadStats().equip||{}; replayField.setSkins(skinById(QBS,e.qb),skinById(WRS,e.wr));
+    var sx=loadStats(), e=sx.equip||{}; replayField.setSkins(skinById(QBS,e.qb),skinById(WRS,e.wr));
+    var stx=skinById(STADIUMS,e.stadium); if(!isUnlocked(sx,stx)) stx=STADIUMS[0]; styleStadium(replayField,$("replayWrap"),stx);
     var r=best.r, t=TIERMAP[r.tier];
     $("replayTag").textContent=(r.hm==="hit"?"Hail Mary ×2":t.label)+" · "+(r.said||"")+" · +"+r.pts;
     replayPlay=function(){

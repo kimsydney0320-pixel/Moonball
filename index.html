@@ -1050,7 +1050,7 @@
   try{ var _dv=JSON.parse(sessionStorage.getItem("deepball:dev")||"null"); if(_dv){ DEV.off=_dv.off|0; DEV.unlockAll=!!_dv.unlockAll; DEV.reveal=!!_dv.reveal; } }catch(e){}
   function saveDev(){ try{ sessionStorage.setItem("deepball:dev",JSON.stringify({off:DEV.off,unlockAll:DEV.unlockAll,reveal:DEV.reveal})); }catch(e){} }
   var TIERMAP = {}; TIERS.forEach(function(t){ TIERMAP[t.key]=t; });
-  var MAXYDS = TIERS[TIERS.length-1].pts * (ROUND_LEN+1);   // the final-play Hail Mary can double a Bomb
+  var MAXYDS = TIERS[TIERS.length-1].pts * ROUND_LEN;
   var HM_INT = 15, HM_TIERS = ["film","deep","hail"];
   var EMOJI = { miss:"⬛", chalk:"⬜", bandwagon:"\u{1F7E8}", starter:"\u{1F7E7}", film:"\u{1F7E6}", deep:"\u{1F7EA}", hail:"\u{1F3C8}" };
   var $ = function(id){ return document.getElementById(id); };
@@ -1245,7 +1245,7 @@
       turf:["#c9d8de","#d6e3e8"],speck:["#ffffff","#b8c9d0"],specks:1700,ez:["#8fa3ad","#9aaeb7"],ezText:"#0b2265",line:"#3a5b8c",num:"rgba(11,34,101,.75)",crowd:["#0b2265","#a71930","#ffffff","#0b2265"],fx:"snowheavy"},
     {id:"st-gold",name:"Gold Rush",tier:"Legendary",req:{k:"best",n:250,txt:"Gain 250+ yards in one drive"},blurb:"End zones paved in gold",
       ez:["#b8860b","#d4a017"],ezText:"#ffffff",crowd:["#aa0000","#b3995d","#ffffff","#aa0000"],fx:"sparkle"},
-    {id:"st-moon",name:"Moon Base",tier:"Mythic",req:{k:"hmHits",n:3,txt:"Catch 3 Hail Marys"},blurb:"Low gravity. Throws hang forever",
+    {id:"st-moon",name:"Moon Base",tier:"Mythic",req:{k:"moonBase",n:15,txt:"Throw 15 Bombs"},blurb:"Low gravity. Throws hang forever",
       turf:["#6b6f7a","#747884"],speck:["#565a63","#8a8e99"],specks:650,ez:["#2a2d36","#33363f"],ezText:"#fff1b8",line:"#e9edf7",num:"rgba(233,237,247,.8)",crowd:["#05060b","#05060b","#05060b","#05060b"],bg:"#05060b",fx:"space",craters:true,lowGrav:true},
     {id:"st-supernova",name:"Supernova",tier:"Mythic",req:{k:"best",n:300,txt:"Gain 300+ yards in one drive"},blurb:"A field made of starlight",
       turf:["#1b0f3a","#21124a"],speck:["#ff7ad9","#7ac8ff"],specks:320,ez:["#3a0f5a","#45126a"],ezText:"#ffd84d",line:"#ffd84d",num:"rgba(255,216,77,.85)",crowd:["#05060b","#05060b","#05060b","#05060b"],bg:"#05060b",fx:"space"}
@@ -1646,7 +1646,7 @@
     S.res=[]; S.active=-1; S.hm=null;
     var pg=loadProg();
     if(pg){
-      if(typeof pg.hm==="boolean") S.hm=pg.hm;
+      S.hm=false;
       S.res=pg.res.map(deser).filter(Boolean);
       if(pg.active>=0 && pg.active===S.res.length && S.set[pg.active]){       // left mid-prompt: that play is a sack
         var pp=S.set[pg.active], ps=posFrom(S.res); buildIndex(pp);
@@ -1678,7 +1678,7 @@
     $("hudTd").textContent=S.tds;
   }
 
-  function isHM(){ return S.i===ROUND_LEN-1 && S.hm===true; }
+  function isHM(){ return false; }   // Hail Mary final play removed
   function showHmPick(){
     stopClock();
     $("askView").classList.add("hidden"); $("verdictView").classList.add("hidden"); $("btnNext").classList.add("hidden");
@@ -1693,7 +1693,6 @@
     try{ $("hmGo").focus(); }catch(e){}
   }
   function ask(){
-    if(S.i===ROUND_LEN-1 && S.hm==null) return showHmPick();
     $("hmView").classList.add("hidden");
     var p=S.set[S.i]; buildIndex(p);
     if(S.newDrive){ field.setLOS(START_YD); S.newDrive=false; }
@@ -2068,6 +2067,7 @@
       case "tds": v=s.tds||0; break;
       case "deepThrows": v=(t.film||0)+(t.deep||0)+(t.hail||0); break;
       case "hmHits": v=s.hmHits||0; break;
+      case "moonBase": v=(s.hmHits||0)>=3 ? 15 : (t.hail||0); break;   // anyone who caught 3 Hail Marys keeps it
     }
     return {v:v,n:req.n};
   }
@@ -3364,7 +3364,7 @@
     text("QB  "+q.name.toUpperCase()+"   ·   WR  "+w.name.toUpperCase(),Wd/2,966,fitF("QB  "+q.name.toUpperCase()+"   ·   WR  "+w.name.toUpperCase(),Wd-160,40,800),"#c9b8ff","center");
     // ---- stats 3 x 2
     var stats=[[s.best||0,"BEST DRIVE","#ffe45c"],[s.tds||0,"TOUCHDOWNS","#ffffff"],[(s.tiers||{}).hail||0,"BOMBS","#3df5ff"],
-               [st.max,"BEST STREAK","#ffffff"],[s.hmHits||0,"HAIL MARYS","#ff8ad0"],[st.played,"DRIVES","#ffffff"]];
+               [st.max,"BEST STREAK","#ffffff"],[(s.tiers||{}).deep||0,"DEEP POSTS","#ff8ad0"],[st.played,"DRIVES","#ffffff"]];
     var cw=300, chh=184, gx=60, gy=1000;
     stats.forEach(function(it,i){
       var cx=gx+(i%3)*(cw+20), cy=gy+Math.floor(i/3)*(chh+18);

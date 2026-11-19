@@ -1617,7 +1617,10 @@
     if(!L) return order.map(promptById).filter(Boolean).slice(0,ROUND_LEN);
     var n=dayIndex(key), idx=((n%L)+L)%L;
     var ids=order.slice(idx*ROUND_LEN, idx*ROUND_LEN+ROUND_LEN);
-    return shuffleWith(ids.map(promptById).filter(Boolean),rng(hashStr("deepball-order-"+key)));
+    var deal=shuffleWith(ids.map(promptById).filter(Boolean),rng(hashStr("deepball-order-"+key)));
+    // From Nov 20 on, warm up with the easy prompts and save the hard ones for the end of the drive.
+    if(n>=2) deal=deal.filter(function(p){return p.diff!=="hard";}).concat(deal.filter(function(p){return p.diff==="hard";}));
+    return deal;
   }
   window.__deal=dealFor;
 
@@ -3401,7 +3404,7 @@
   $("btnPlayerCard").addEventListener("click",openPlayerCard);
 
   // expose for testing
-  window.__deepball={pcard:makePlayerCard,match:match,suggest:suggest,sched:function(){return SCHED;},count:function(){return PROMPTS.length;},ready:customReady};
+  window.__deepball={pcard:makePlayerCard,match:match,suggest:suggest,deal:dealFor,sched:function(){return SCHED;},count:function(){return PROMPTS.length;},ready:customReady};
   applySkins();
   paintAccount();
   paintHome();

@@ -904,6 +904,7 @@
   <section id="stats" class="hidden">
     <div class="mast" style="padding-bottom:10px"><span class="kick">Your season</span></div>
     <div id="statsHome"></div>
+    <button class="btn chbtn" id="btnPlayerCard">Share my player card</button>
     <button class="btn ghost" id="btnStatsBack">Back to the start</button>
   </section>
 
@@ -3037,7 +3038,7 @@
     return c;
   }
   $("btnCard").addEventListener("click",async function(){
-    var c=await makeCard(); $("cardImg").src=c.toDataURL("image/png"); $("cardImg")._canvas=c; $("cardDlg").classList.remove("hidden");
+    var c=await makeCard(); $("cardImg").alt="Your Moonball result card"; $("cardImg").src=c.toDataURL("image/png"); $("cardImg")._canvas=c; $("cardDlg").classList.remove("hidden");
   });
   $("cardClose").addEventListener("click",function(){ $("cardDlg").classList.add("hidden"); });
   $("cardCopy").addEventListener("click",function(){
@@ -3209,6 +3210,96 @@
     dialog('<h3>Challenge a friend</h3><p>'+(copied?"Link copied! Paste it in a text or group chat.":"Copy this link and send it to a friend:")+'</p>'+
       '<input class="nickin chlink" readonly value="'+esc(url)+'" onclick="this.select()"><p class="fine">They’ll play today’s same seven prompts, then see your drive next to theirs.</p>');
   });
+
+  /* ---------- player card: a pixel trading card of your season + cosmetics ---------- */
+  var TIER_RANK={Common:1,Rare:2,Epic:3,Legendary:4,Mythic:5};
+  var FRAME={Common:["#9aa6c4","#5d6782"],Rare:["#ff9f43","#a3561c"],Epic:["#4fb4ff","#1d5c99"],Legendary:["#b77dff","#5b2f99"],Mythic:["#3dff9a","#ffd84d"]};
+  async function makePlayerCard(){
+    var s=loadStats(), st=streaks(s), e=s.equip||{};
+    var q=skinById(QBS,e.qb); if(!isUnlocked(s,q)) q=QBS[0];
+    var w=skinById(WRS,e.wr); if(!isUnlocked(s,w)) w=WRS[0];
+    var sd=skinById(STADIUMS,e.stadium); if(!isUnlocked(s,sd)) sd=STADIUMS[0];
+    var th=stTheme(sd);
+    var top=[q,w,sd].reduce(function(a,k){ return TIER_RANK[k.tier]>TIER_RANK[a]?k.tier:a; },"Common");
+    var fr=FRAME[top], holo=top==="Mythic";
+    var Wd=1080,Ht=1512,c=document.createElement("canvas"); c.width=Wd; c.height=Ht;
+    var g=c.getContext("2d"); g.imageSmoothingEnabled=false;
+    try{ await Promise.all([document.fonts.load('48px "Press Start 2P"'),document.fonts.load('40px "VT323"')]); }catch(err){}
+    var PS='"Press Start 2P", monospace', VT='"VT323", monospace';
+    function text(t,x,y,font,col,align,shadow){ g.font=font; g.textAlign=align||"center"; g.textBaseline="alphabetic"; if(shadow){ g.fillStyle=shadow; g.fillText(t,x+6,y+6); } g.fillStyle=col; g.fillText(t,x,y); }
+    function fit(t,maxW,size,fam){ var sz=size; g.font=sz+"px "+fam; while(g.measureText(t).width>maxW && sz>18){ sz-=2; g.font=sz+"px "+fam; } return sz+"px "+fam; }
+    // frame
+    g.fillStyle="#05060b"; g.fillRect(0,0,Wd,Ht);
+    g.fillStyle=fr[1]; g.fillRect(16,16,Wd-32,Ht-32);
+    g.fillStyle=fr[0]; g.fillRect(32,32,Wd-64,Ht-64);
+    g.fillStyle="#0b0e1a"; g.fillRect(56,56,Wd-112,Ht-112);
+    // header: logo + nickname
+    await new Promise(function(res){ var im=new Image(); im.onload=function(){ g.drawImage(im,84,78,96,96); res(); }; im.onerror=res; im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(MARK_SVG); });
+    text("MOONBALL",200,118,"28px "+PS,"#fff1b8","left");
+    text((top+" card").toUpperCase(),200,160,"22px "+PS,fr[0],"left");
+    var nm=(MYNICK||"Rookie").toUpperCase();
+    text(nm,Wd/2,262,fit(nm,Wd-180,64,PS),"#fff1b8","center","#6b3517");
+    // art window: the equipped stadium with QB + WR
+    var ax=84, ay=300, aw=Wd-168, ah=560;
+    g.fillStyle="#05060b"; g.fillRect(ax-8,ay-8,aw+16,ah+16);
+    g.fillStyle=th.bg; g.fillRect(ax,ay,aw,ah);
+    var crowdH=70, cr=th.crowd;
+    if(th.fx==="space"){ g.fillStyle="#05060b"; g.fillRect(ax,ay,aw,crowdH); for(var si=0;si<40;si++){ g.fillStyle=si%5?"#e9edf7":"#ffd84d"; g.fillRect(ax+((si*97)%aw),ay+((si*53)%crowdH),4,4); } }
+    else { for(var ci=0;ci<aw/16;ci++){ for(var rr=0;rr<4;rr++){ g.fillStyle=cr[(ci+rr*3)%cr.length]; if((ci+rr)%2) g.fillRect(ax+ci*16,ay+8+rr*16,8,8); } } }
+    var fy=ay+crowdH, fh=ah-crowdH, bands=8, ez=70;
+    for(var bi=0;bi<bands;bi++){ g.fillStyle=th.turf[bi%2]; g.fillRect(ax+ez+bi*((aw-2*ez)/bands),fy,(aw-2*ez)/bands+1,fh); }
+    var rr2=rng(hashStr("card-"+sd.id));
+    for(var k=0;k<Math.min(900,th.specks);k++){ g.fillStyle=rr2()<.5?th.speck[0]:th.speck[1]; g.fillRect(ax+ez+Math.floor(rr2()*(aw-2*ez)/6)*6,fy+Math.floor(rr2()*fh/6)*6,6,6); }
+    if(th.craters){ for(var cc=0;cc<7;cc++){ g.fillStyle="#4a4e57"; g.fillRect(ax+ez+40+((cc*131)%(aw-2*ez-80)),fy+30+((cc*89)%(fh-60)),24,18); } }
+    for(var zi=0;zi<2;zi++){ var zx=zi?ax+aw-ez:ax; for(var yy=0;yy<fh;yy+=16) for(var xx=0;xx<ez;xx+=16){ g.fillStyle=((xx+yy)/16)%2?th.ez[0]:th.ez[1]; g.fillRect(zx+xx,fy+yy,16,16); } }
+    g.fillStyle=th.line; g.fillRect(ax,fy,aw,6); g.fillRect(ax,ay+ah-6,aw,6);
+    for(var li=0;li<=bands;li++){ g.globalAlpha=li%2?.55:1; g.fillRect(ax+ez+li*((aw-2*ez)/bands)-3,fy,6,fh); }
+    g.globalAlpha=1;
+    if(th.fx==="snow"||th.fx==="snowheavy"){ g.fillStyle="#ffffff"; for(var sn=0;sn<(th.fx==="snow"?50:120);sn++) g.fillRect(ax+((sn*137)%aw),ay+((sn*71)%ah),6,6); }
+    if(th.fx==="rain"){ g.fillStyle="rgba(153,200,255,.7)"; for(var rn=0;rn<70;rn++) g.fillRect(ax+((rn*113)%aw),ay+((rn*59)%ah),3,18); }
+    if(th.fx==="sunset"){ var gr=g.createLinearGradient(0,ay,0,ay+ah*.6); gr.addColorStop(0,"rgba(255,120,40,.45)"); gr.addColorStop(1,"rgba(255,120,40,0)"); g.fillStyle=gr; g.fillRect(ax,ay,aw,ah); }
+    if(th.fx==="lights"){ [ax+60,ax+aw-60].forEach(function(lx){ var rg=g.createRadialGradient(lx,ay,10,lx,ay,320); rg.addColorStop(0,"rgba(255,255,230,.45)"); rg.addColorStop(1,"rgba(255,255,230,0)"); g.fillStyle=rg; g.fillRect(ax,ay,aw,ah); }); }
+    function sprite(skin,rows,ox,oy,px,flip){ var pal={K:"#0b0d14",H:skin.helmet,S:skin.stripe,F:"#c9d1dc",J:skin.jersey,N:skin.numc,A:skin.skin||"#d9a066",P:skin.pants||"#e9e4d8",B:"#14161c"};
+      rows.forEach(function(r,y2){ for(var x2=0;x2<r.length;x2++){ var ch=r[x2]; if(ch==="."||!pal[ch]) continue; g.fillStyle=pal[ch]; g.fillRect(ox+(flip?(r.length-1-x2):x2)*px,oy+y2*px,px,px); } }); }
+    var px=20, spH=16*px, spY=ay+ah-spH-36;
+    g.fillStyle="rgba(0,0,0,.35)"; g.fillRect(ax+150,spY+spH-14,12*px-20,16); g.fillRect(ax+aw-150-12*px+20,spY+spH-14,12*px-20,16);
+    sprite(q,SPR.throwF,ax+150,spY,px); sprite(w,SPR.catchF,ax+aw-150-12*px,spY,px,true);
+    // ball mid-flight
+    g.fillStyle="#05060b"; g.fillRect(Wd/2-34,ay+170,68,40); g.fillStyle="#8a4b22"; g.fillRect(Wd/2-28,ay+176,56,28); g.fillStyle="#f4f4f4"; g.fillRect(Wd/2-14,ay+186,28,8);
+    if(holo){ var hg=g.createLinearGradient(ax,ay,ax+aw,ay+ah); hg.addColorStop(0,"rgba(61,255,154,0)"); hg.addColorStop(.45,"rgba(255,255,255,.18)"); hg.addColorStop(.55,"rgba(255,216,77,.22)"); hg.addColorStop(1,"rgba(122,200,255,0)"); g.fillStyle=hg; g.fillRect(ax,ay,aw,ah); }
+    // name strip for the stadium
+    g.fillStyle="#05060b"; g.fillRect(ax,ay+ah-2,aw,52);
+    text(sd.name.toUpperCase()+" · "+sd.tier.toUpperCase(),Wd/2,ay+ah+34,"20px "+PS,fr[0]);
+    // stats grid
+    var ys=Object.keys(s.days).map(function(k2){return s.days[k2].y||0;});
+    var avg=ys.length?Math.round(ys.reduce(function(a,b){return a+b;},0)/ys.length):0;
+    var stats=[[s.best||0,"BEST DRIVE"],[st.played,"DRIVES"],[st.max,"BEST STREAK"],[st.cur,"STREAK NOW"],[s.tds||0,"TOUCHDOWNS"],[(s.tiers||{}).hail||0,"BOMBS"],[s.hmHits||0,"HAIL MARYS"],[avg,"AVG YARDS"]];
+    var gx=84, gy=ay+ah+70, cw=(Wd-168-30)/4, chh=150;
+    stats.forEach(function(it,i){
+      var cx=gx+(i%4)*(cw+10), cy=gy+Math.floor(i/4)*(chh+14);
+      g.fillStyle="#141a2c"; g.fillRect(cx,cy,cw,chh); g.fillStyle=fr[1]; g.fillRect(cx,cy,cw,6);
+      text(String(it[0]),cx+cw/2,cy+86,fit(String(it[0]),cw-20,48,PS),i<2?"#ffd84d":"#e9edf7","center","#05060b");
+      text(it[1],cx+cw/2,cy+128,"15px "+PS,"#9aa6c4");
+    });
+    // equipped kits + footer
+    var ky=gy+2*(chh+14)+40;
+    text("QB  "+q.name.toUpperCase(),84,ky,fit("QB  "+q.name.toUpperCase(),Wd-168,22,PS),"#e9edf7","left");
+    text("WR  "+w.name.toUpperCase(),84,ky+42,fit("WR  "+w.name.toUpperCase(),Wd-168,22,PS),"#e9edf7","left");
+    text("PLAYMOONBALL.COM",Wd/2,Ht-84,"22px "+PS,"#9aa6c4");
+    return c;
+  }
+  async function openPlayerCard(){
+    try{ await loadMyNick(); }catch(err){}
+    if(!MYNICK){
+      dialog('<h3>Your player card</h3><p>Pick a nickname for your card first.</p><div id="nickDlg">'+nickFormHTML(null)+'</div>');
+      wireNickForm($("nickDlg"),function(){ $("dlg").classList.add("hidden"); openPlayerCard(); }); return;
+    }
+    var c=await makePlayerCard();
+    $("cardImg").src=c.toDataURL("image/png"); $("cardImg")._canvas=c; $("cardImg").alt="Your Moonball player card";
+    $("cardHint").textContent="Long-press (phone) or right-click (computer) the card to save it.";
+    $("cardDlg").classList.remove("hidden");
+  }
+  $("btnPlayerCard").addEventListener("click",openPlayerCard);
 
   // expose for testing
   window.__deepball={match:match,suggest:suggest,sched:function(){return SCHED;},count:function(){return PROMPTS.length;},ready:customReady};

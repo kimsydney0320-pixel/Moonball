@@ -618,6 +618,62 @@
   .nickrow .btn{width:auto;margin:0;padding:0 16px}
   .nickmsg{margin-top:6px;font-family:var(--vt);font-size:17px;color:#9aa6c4}
   .nickmsg.bad{color:var(--red)}
+  /* hail mary */
+  .hmpick{text-align:center;padding:8px 4px}
+  .hmk{font-family:var(--px);font-size:10px;color:#9aa6c4;text-transform:uppercase;letter-spacing:.08em}
+  .hmt{font-family:var(--px);font-size:20px;line-height:1.4;color:var(--gold);margin:10px 0;text-shadow:3px 3px 0 #6b3517}
+  .hmpick p{font-family:var(--vt);font-size:21px;line-height:1.25;color:#cfd6ea;margin:0 0 14px}
+  .hmbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .hmbtns .btn{margin:0}
+  .hmgo{background:var(--gold)!important;color:#05060b!important}
+  .card.hmcard{box-shadow:inset 0 0 0 3px var(--gold),6px 6px 0 #05060b!important}
+  .pcard.hmhit{box-shadow:0 0 0 4px var(--gold),0 0 28px rgba(255,216,77,.55)!important}
+  .pcard.hmint{--tc:var(--red)}
+  @media (max-width:520px){ .hmbtns{grid-template-columns:1fr} .hmt{font-size:16px} }
+  /* big plays */
+  #gameBox{position:relative}
+  .callout{position:absolute;left:50%;top:14%;transform:translateX(-50%) scale(.6);z-index:5;max-width:92%;padding:10px 14px;text-align:center;
+    font-family:var(--px);font-size:14px;line-height:1.4;color:#05060b;background:var(--gold);border:4px solid #05060b;box-shadow:5px 5px 0 #05060b;opacity:0;pointer-events:none;white-space:nowrap}
+  .callout.hidden{display:none}
+  .callout.on{animation:callIn 2.2s steps(10) forwards}
+  .callout.c-int{background:var(--red);color:#fff}
+  .callout.c-film{background:#7ac8ff}
+  .callout.c-hm,.callout.c-hail{background:#fff1b8}
+  @keyframes callIn{0%{opacity:0;transform:translateX(-50%) scale(.6)}12%{opacity:1;transform:translateX(-50%) scale(1.08)}20%,82%{opacity:1;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-50%) scale(1)}}
+  .fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4}
+  .fx i{position:absolute;width:10px;height:10px;animation:boom 1.3s steps(12) forwards;opacity:0}
+  @keyframes boom{0%{opacity:1;transform:translate(0,0)}70%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+  @media (max-width:520px){ .callout{font-size:10px;white-space:normal} }
+  @media (prefers-reduced-motion:reduce){ .fx i{animation:none;display:none} .callout.on{animation:none;opacity:1;transform:translateX(-50%)} }
+  /* deep cut, head to head, replay, challenge */
+  .deepcut{margin:16px 0;padding:16px;text-align:center;background:#0b0f1c;border:4px solid #05060b;box-shadow:inset 0 0 0 3px var(--tc,var(--gold)),6px 6px 0 #05060b}
+  .dck{font-family:var(--px);font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+  .dca{font-family:var(--px);font-size:22px;line-height:1.3;color:#fff1b8;margin:10px 0 6px;text-shadow:3px 3px 0 #6b3517;word-break:break-word}
+  .dcq{font-family:var(--vt);font-size:19px;color:#9aa6c4}
+  .dcs{font-family:var(--vt);font-size:20px;color:#e9edf7;margin-top:6px}
+  .vs{margin:16px 0;padding:14px;background:#0b0f1c;border:4px solid #05060b;box-shadow:inset 0 0 0 3px var(--edge),6px 6px 0 #05060b}
+  .vs.won{box-shadow:inset 0 0 0 3px #3dff9a,6px 6px 0 #05060b} .vs.lost{box-shadow:inset 0 0 0 3px var(--red),6px 6px 0 #05060b}
+  .vsk{font-family:var(--px);font-size:10px;color:#9aa6c4;text-transform:uppercase;text-align:center}
+  .vsh{font-family:var(--px);font-size:16px;line-height:1.4;text-align:center;color:#fff1b8;margin:8px 0 12px}
+  .vsscore{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center;margin-bottom:10px}
+  .vsscore b{display:block;font-family:var(--px);font-size:26px;color:var(--gold)} .vsscore span{font-family:var(--vt);font-size:18px;color:#9aa6c4}
+  .vsv{font-family:var(--px);font-size:12px;color:#7d87a3;padding:0 10px}
+  .vsrow{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0;border-top:2px dashed var(--edge)}
+  .vsq{grid-column:1/-1;font-family:var(--vt);font-size:18px;color:#9aa6c4}
+  .vsc{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;background:#05060b;font-family:var(--vt);font-size:19px;color:#cfd6ea;min-width:0}
+  .vsc b{font-weight:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .vsc span{font-family:var(--px);font-size:10px;color:var(--tc,#9aa6c4);align-self:center}
+  .vsc.w{box-shadow:inset 0 0 0 2px #3dff9a}
+  .chbanner{margin:16px 0 0;padding:14px;text-align:center;background:#1a1030;border:4px solid #05060b;box-shadow:inset 0 0 0 3px #ff7ad9,6px 6px 0 #05060b}
+  .chbanner.hidden{display:none}
+  .chk{font-family:var(--px);font-size:10px;color:#ff7ad9;text-transform:uppercase}
+  .cht{font-family:var(--vt);font-size:21px;line-height:1.25;color:#e9edf7;margin:8px 0 10px}
+  .chs{font-family:var(--vt);font-size:18px;color:#9aa6c4}
+  .chbanner .btn{margin:0}
+  .chbtn{background:#ff7ad9!important;color:#05060b!important;margin-top:16px}
+  .chlink{width:100%;box-sizing:border-box;font-size:16px!important}
+  .replay{position:relative}
+  .replaytag{position:absolute;left:10px;bottom:10px;font-family:var(--px);font-size:9px;color:#05060b;background:var(--gold);padding:6px 8px;border:3px solid #05060b}
+  @media (max-width:520px){ .dca{font-size:16px} .vsc{font-size:16px} }
   /* logo + footer */
   .brand .mark{width:28px;height:28px;display:block;image-rendering:pixelated}
   .heromark{display:block;width:120px;height:120px;margin:0 auto 6px;image-rendering:pixelated}
@@ -740,6 +796,7 @@
     <div class="playbook" id="playbook"></div>
 
     <div class="themebar hidden" id="themeBar"></div>
+    <div class="chbanner hidden" id="chBanner"></div>
     <button class="btn" id="btnDaily">Today's Drive</button>
     <div class="homegrid">
       <button class="btn ghost" id="btnBoard">Leaderboard</button>
@@ -771,7 +828,7 @@
       <div class="chy acc"><div class="k">TDs</div><div class="v" id="hudTd">0</div></div>
     </div>
 
-    <div class="fieldbox cam"><div class="crowd"></div><svg id="gameField"></svg></div>
+    <div class="fieldbox cam" id="gameBox"><div class="crowd"></div><svg id="gameField"></svg><div class="callout hidden" id="callout"></div><div class="fx" id="fx"></div></div>
 
     <div class="clock" id="clock"><i id="clockBar"></i></div>
 
@@ -789,6 +846,7 @@
         <div class="feedback" id="feedback"></div>
       </div>
       <div id="verdictView" class="hidden"></div>
+      <div id="hmView" class="hidden"></div>
     </div>
 
     <button class="btn hidden" id="btnNext">Next play</button>
@@ -863,7 +921,14 @@
     </div>
     </div>
     <div id="saveNudge"></div>
+    <div id="vsBox" class="hidden"></div>
+    <div id="deepCut" class="hidden"></div>
     <div id="unlocks"></div>
+    <div id="replayBox" class="hidden">
+      <div class="sect">Your play of the day</div>
+      <div class="fieldbox cam replay" id="replayWrap"><div class="crowd"></div><svg id="replayField"></svg><div class="replaytag" id="replayTag"></div></div>
+      <button type="button" class="btn ghost" id="btnReplay">▶ Replay it</button>
+    </div>
     <div class="sect">How you stack up</div>
     <div class="dist card" id="dist">
       <div class="disthead"><div id="distTitle">Loading today's scores…</div><div class="distsub" id="distSub"></div></div>
@@ -881,6 +946,7 @@
     <div class="film" id="film"></div>
     <div class="share" id="shareGrid"></div>
     <div class="copied" id="copied"></div>
+    <button class="btn chbtn" id="btnChallenge">Challenge a friend</button>
     <div class="homegrid" style="grid-template-columns:1fr 1fr!important">
       <button class="btn" id="btnCopy">Copy result</button>
       <button class="btn" id="btnCard" style="background:var(--gold)!important">Share card</button>
@@ -916,7 +982,8 @@
   try{ var _dv=JSON.parse(sessionStorage.getItem("deepball:dev")||"null"); if(_dv){ DEV.off=_dv.off|0; DEV.unlockAll=!!_dv.unlockAll; DEV.reveal=!!_dv.reveal; } }catch(e){}
   function saveDev(){ try{ sessionStorage.setItem("deepball:dev",JSON.stringify({off:DEV.off,unlockAll:DEV.unlockAll,reveal:DEV.reveal})); }catch(e){} }
   var TIERMAP = {}; TIERS.forEach(function(t){ TIERMAP[t.key]=t; });
-  var MAXYDS = TIERS[TIERS.length-1].pts * ROUND_LEN;
+  var MAXYDS = TIERS[TIERS.length-1].pts * (ROUND_LEN+1);   // the final-play Hail Mary can double a Bomb
+  var HM_INT = 15, HM_TIERS = ["film","deep","hail"];
   var EMOJI = { miss:"⬛", chalk:"⬜", bandwagon:"\u{1F7E8}", starter:"\u{1F7E7}", film:"\u{1F7E6}", deep:"\u{1F7EA}", hail:"\u{1F3C8}" };
   var $ = function(id){ return document.getElementById(id); };
   var NS = "http://www.w3.org/2000/svg";
@@ -1228,7 +1295,8 @@
     function stopAnims(){ anims.forEach(function(a){ if(a.r) cancelAnimationFrame(a.r); }); anims=[]; }
     function cancel(){ if(raf){ cancelAnimationFrame(raf); raf=null; } stopAnims(); }
 
-    function throwBall(yds,color,lane,done){
+    function throwBall(yds,color,lane,done,slow){
+      slow=slow||1;
       cancel();
       var from=pos, to=from+yds, td=to>=100;
       var landYd=td?Math.min(to,106):to;
@@ -1243,7 +1311,7 @@
       trail.setAttribute("stroke",color);
       var len=trail.getTotalLength ? trail.getTotalLength() : Math.hypot(tx-sx,ty-sy);
       trail.setAttribute("opacity",0);
-      var peak=10+yds*2.2, dur=420+yds*17, wind=300, t0=null;
+      var peak=10+Math.min(yds,70)*2.2, dur=(420+Math.min(yds,70)*17)*slow, wind=300*(slow>1?1.25:1), t0=null;
       function qp(t){ var u=1-t; return [u*u*sx+2*u*t*cx+t*t*tx, u*u*sy+2*u*t*cy+t*t*ty]; }
       function frame(ts){
         if(t0===null) t0=ts;
@@ -1321,8 +1389,23 @@
       }
       raf=requestAnimationFrame(f);
     }
+    function intercept(){
+      cancel();
+      var hnd=qbHand(), sx=hnd[0], sy=hnd[1], tx=sx+330, ty=MID-30, t0=null, dur=1150;
+      function f(ts){
+        if(t0===null) t0=ts;
+        var t=Math.min(1,(ts-t0)/dur);
+        QB.frame(t<.25?"throwF":"stand");
+        placeBall(sx+(tx-sx)*t, sy+(ty-sy)*t, Math.sin(Math.PI*t)*150);
+        if(t<1){ raf=requestAnimationFrame(f); return; }
+        raf=null;
+        pop.textContent="PICKED OFF"; pop.setAttribute("fill","#ff4d5e");
+        pop.setAttribute("x",snap(tx)); pop.setAttribute("y",snap(ty-60)); pop.setAttribute("opacity",1);
+      }
+      raf=requestAnimationFrame(f);
+    }
     setLOS(START_YD);
-    return { setLOS:setLOS, throwBall:throwBall, sack:sack, throwAway:throwAway, cancel:cancel, setSkins:setSkins, get pos(){return pos;} };
+    return { setLOS:setLOS, throwBall:throwBall, sack:sack, throwAway:throwAway, intercept:intercept, cancel:cancel, setSkins:setSkins, get pos(){return pos;} };
   }
 
   /* =====================================================================
@@ -1428,13 +1511,13 @@
 
   /* ---------- progress: one drive a day, resumable ---------- */
   var PROG_KEY="deepball:progress";
-  function ser(r){ return {pid:r.p.id,said:r.said,tier:r.tier,pts:r.pts,start:r.start,end:r.end,td:!!r.td,away:!!r.away}; }
+  function ser(r){ return {pid:r.p.id,said:r.said,tier:r.tier,pts:r.pts,start:r.start,end:r.end,td:!!r.td,away:!!r.away,hm:r.hm||null}; }
   function deser(o){
     var p=null; for(var i=0;i<PROMPTS.length;i++) if(PROMPTS[i].id===o.pid) p=PROMPTS[i];
     if(!p) return null; buildIndex(p);
-    return {p:p,prompt:p.prompt,said:o.said,tier:o.tier,pts:o.pts,start:o.start,end:o.end,td:o.td,away:!!o.away};
+    return {p:p,prompt:p.prompt,said:o.said,tier:o.tier,pts:o.pts,start:o.start,end:o.end,td:o.td,away:!!o.away,hm:o.hm||null};
   }
-  function saveProg(){ try{ localStorage.setItem(PROG_KEY,JSON.stringify({key:todayKey(),active:S.active,res:S.res.map(ser)})); }catch(e){} }
+  function saveProg(){ try{ localStorage.setItem(PROG_KEY,JSON.stringify({key:todayKey(),active:S.active,hm:S.hm,res:S.res.map(ser)})); }catch(e){} }
   function loadProg(){ try{ var p=JSON.parse(localStorage.getItem(PROG_KEY)||"null"); if(p && p.key===todayKey()) return p; }catch(e){} return null; }
   function clearProg(){ try{ localStorage.removeItem(PROG_KEY); }catch(e){} }
   function posFrom(res){ if(!res.length) return START_YD; var l=res[res.length-1]; return l.td?START_YD:Math.min(99,l.end); }
@@ -1445,13 +1528,15 @@
     if(S.remoteDone) return;
     S.set=dealFor(key);
     var lr=rng(hashStr("deepball-lanes-"+key)); S.lanes=S.set.map(function(){ return .12+lr()*.76; });
-    S.res=[]; S.active=-1;
+    S.res=[]; S.active=-1; S.hm=null;
     var pg=loadProg();
     if(pg){
+      if(typeof pg.hm==="boolean") S.hm=pg.hm;
       S.res=pg.res.map(deser).filter(Boolean);
       if(pg.active>=0 && pg.active===S.res.length && S.set[pg.active]){       // left mid-prompt: that play is a sack
         var pp=S.set[pg.active], ps=posFrom(S.res); buildIndex(pp);
-        S.res.push({p:pp,prompt:pp.prompt,said:null,tier:"miss",pts:0,start:ps,end:ps,td:false});
+        if(pg.active===ROUND_LEN-1 && S.hm===true) S.res.push({p:pp,prompt:pp.prompt,said:null,tier:"miss",pts:-HM_INT,start:ps,end:ps,td:false,hm:"int"});
+        else S.res.push({p:pp,prompt:pp.prompt,said:null,tier:"miss",pts:0,start:ps,end:ps,td:false});
       }
     }
     S.i=S.res.length; S.tds=S.res.filter(function(r){return r.td;}).length; S.newDrive=false;
@@ -1469,7 +1554,7 @@
     finish(true);
   }
 
-  function total(){ return S.res.reduce(function(a,r){return a+r.pts;},0); }
+  function total(){ return Math.max(0,S.res.reduce(function(a,r){return a+r.pts;},0)); }
   function hud(){
     $("hudNum").innerHTML=(S.i+1)+"<small>/"+ROUND_LEN+"</small>";
     $("hudBall").textContent=ballOn(field.pos>=100?100:field.pos);
@@ -1478,7 +1563,23 @@
     $("hudTd").textContent=S.tds;
   }
 
+  function isHM(){ return S.i===ROUND_LEN-1 && S.hm===true; }
+  function showHmPick(){
+    stopClock();
+    $("askView").classList.add("hidden"); $("verdictView").classList.add("hidden"); $("btnNext").classList.add("hidden");
+    var v=$("hmView");
+    v.innerHTML='<div class="hmpick"><div class="hmk">Final play</div><div class="hmt">Throw a Hail Mary?</div>'+
+      '<p>Answer with a <b>Seam Route or deeper</b> (30+ yards) and your yards <b>double</b>. Anything shorter, no answer, or time running out gets <b>picked off: −'+HM_INT+' yards</b>. No throwing it away.</p>'+
+      '<div class="hmbtns"><button type="button" class="btn hmgo" id="hmGo">Hail Mary — go deep</button><button type="button" class="btn ghost" id="hmSafe">Play it safe</button></div></div>';
+    v.classList.remove("hidden");
+    function pick(on){ S.hm=on; saveProg(); v.classList.add("hidden"); v.innerHTML=""; if(on) SFX.unlockJingle(); ask(); }
+    $("hmGo").addEventListener("click",function(){ pick(true); });
+    $("hmSafe").addEventListener("click",function(){ pick(false); });
+    try{ $("hmGo").focus(); }catch(e){}
+  }
   function ask(){
+    if(S.i===ROUND_LEN-1 && S.hm==null) return showHmPick();
+    $("hmView").classList.add("hidden");
     var p=S.set[S.i]; buildIndex(p);
     if(S.newDrive){ field.setLOS(START_YD); S.newDrive=false; }
     else field.setLOS(field.pos);
@@ -1486,7 +1587,9 @@
     $("askView").classList.remove("hidden");
     $("verdictView").classList.add("hidden");
     $("btnNext").classList.add("hidden");
-    $("qnum").textContent=(THEMES[todayKey()]?THEMES[todayKey()]+" \u00B7 ":"")+"Prompt "+(S.i+1)+" of "+ROUND_LEN;
+    $("qnum").textContent=(THEMES[todayKey()]?THEMES[todayKey()]+" \u00B7 ":"")+"Prompt "+(S.i+1)+" of "+ROUND_LEN+(isHM()?" \u00B7 HAIL MARY \u2014 30+ yards or it\u2019s picked":"");
+    $("card").classList.toggle("hmcard",isHM());
+    $("btnIdk").classList.toggle("hidden",isHM());
     $("qtext").textContent=p.prompt;
     $("qnote").textContent=(p.note||"")+(p._tight?" Short list: the deepest throw here is a Deep Post.":"");
     var da=$("devAns");
@@ -1571,17 +1674,27 @@
 
   function score(hit){
     stopClock(); S.answered=true;
-    var start=field.pos, t=TIERMAP[hit.tier];
-    var r={p:S.set[S.i],prompt:S.set[S.i].prompt,said:hit.display,tier:hit.tier,pts:hit.pts,start:start,end:start+hit.pts,td:start+hit.pts>=100};
+    var start=field.pos, t=TIERMAP[hit.tier], hm=null, pts=hit.pts;
+    if(isHM()){ if(HM_TIERS.indexOf(hit.tier)>=0){ hm="hit"; pts=hit.pts*2; } else { hm="int"; pts=-HM_INT; } }
+    var r={p:S.set[S.i],prompt:S.set[S.i].prompt,said:hit.display,tier:hit.tier,pts:pts,start:start,end:hm==="int"?start:start+pts,td:hm!=="int" && start+pts>=100,hm:hm};
     S.res.push(r); S.active=-1; saveProg();
     $("feedback").innerHTML="";
     verdict(r);
-    SFX.throwBall(hit.pts);
-    field.throwBall(hit.pts,tierColor(hit.tier),S.lanes[S.i],function(td){
-      SFX.catchBall(hit.pts);
+    if(hm==="int") return pickedOff();
+    var big = hm==="hit" || hit.tier==="hail" || hit.tier==="deep";
+    SFX.throwBall(Math.min(pts,60));
+    if(big) setTimeout(function(){ SFX.roar(); }, 350);
+    field.throwBall(pts,tierColor(hit.tier),S.lanes[S.i],function(td){
+      SFX.catchBall(Math.min(pts,60));
+      if(big){ fireworks(hm==="hit"||hit.tier==="hail"?46:26); quakeBox(); }
       if(td){ S.tds++; S.newDrive=true; SFX.td(); slam(); }
+      callout(td?"td":(hm==="hit"?"hm":hit.tier));
       hud(); revealNext(td);
-    });
+    }, big?1.9:1);
+  }
+  function pickedOff(){
+    field.intercept(); SFX.throwBall(60);
+    setTimeout(function(){ SFX.reject(); SFX.whistle(); callout("int"); quakeBox(); hud(); revealNext(false); },1150);
   }
   function throwItAway(){
     if(S.answered) return; stopClock(); S.answered=true;
@@ -1594,6 +1707,10 @@
   $("btnIdk").addEventListener("click",throwItAway);
   function timeUp(){
     if(S.answered) return; S.answered=true;
+    if(isHM()){
+      var ri={p:S.set[S.i],prompt:S.set[S.i].prompt,said:null,tier:"miss",pts:-HM_INT,start:field.pos,end:field.pos,td:false,hm:"int"};
+      S.res.push(ri); S.active=-1; saveProg(); verdict(ri); return pickedOff();
+    }
     var r={p:S.set[S.i],prompt:S.set[S.i].prompt,said:null,tier:"miss",pts:0,start:field.pos,end:field.pos,td:false};
     S.res.push(r); S.active=-1; saveProg();
     field.sack(); SFX.whistle(); verdict(r); hud(); revealNext(false);
@@ -1601,12 +1718,18 @@
   var RARITY={chalk:["Common",1],bandwagon:["Uncommon",2],starter:["Rare",3],film:["Epic",4],deep:["Legendary",5],hail:["Mythic",6],miss:["Sacked",0]};
   function pipsHTML(n){ var h=""; for(var i=1;i<=6;i++) h+='<i class="'+(i<=n?"on":"")+'"></i>'; return h; }
   function verdict(r){
+    if(r.hm==="int"){
+      $("verdictView").innerHTML='<div class="pcard t-miss r0 hmint"><div class="pc-top"><span class="rar">Hail Mary</span><span class="pips">'+pipsHTML(0)+'</span></div>'+
+        '<div class="pc-mid"><div class="pc-play">Intercepted</div><div class="pc-yds">−'+HM_INT+'<small>YARDS</small></div></div>'+
+        '<div class="pc-name"><b>'+(r.said?esc(r.said):"No answer")+'</b><span>'+(r.said?esc(TIERMAP[r.tier].label)+" wasn’t deep enough — needed 30+ yards":"The clock ran out on the heave")+'</span></div></div>';
+      $("askView").classList.add("hidden"); $("verdictView").classList.remove("hidden"); return;
+    }
     var t=TIERMAP[r.tier], key=t?t.key:"miss", rr=RARITY[key];
-    var h='<div class="pcard t-'+key+(r.away?' away':'')+' r'+rr[1]+'"><div class="foil"></div><div class="shine"></div>';
+    var h='<div class="pcard t-'+key+(r.away?' away':'')+(r.hm==="hit"?' hmhit':'')+' r'+rr[1]+'"><div class="foil"></div><div class="shine"></div>';
     if(rr[1]>=5){ for(var k=0;k<(rr[1]===6?7:4);k++) h+='<span class="spark" style="left:'+(8+Math.random()*84)+'%;top:'+(8+Math.random()*80)+'%;animation-delay:'+(Math.random()*1).toFixed(2)+'s">+</span>'; }
     var missLbl=r.away?"Thrown away":"Sacked";
     h+='<div class="pc-top"><span class="rar">'+(t?rr[0]:missLbl)+'</span><span class="pips">'+pipsHTML(rr[1])+'</span></div>';
-    h+='<div class="pc-mid"><div class="pc-play">'+(t?t.label:missLbl)+'</div><div class="pc-yds">+'+(t?t.pts:0)+'<small>YARDS</small></div></div>';
+    h+='<div class="pc-mid"><div class="pc-play">'+(r.hm==="hit"?"Hail Mary \u2014 caught!":(t?t.label:missLbl))+'</div><div class="pc-yds">+'+(r.hm==="hit"?r.pts:(t?t.pts:0))+'<small>'+(r.hm==="hit"?"YARDS \u00D7 2":"YARDS")+'</small></div></div>';
     h+='<div class="pc-name"><b>'+(r.said?esc(r.said):"No answer")+'</b><span>'+(t?esc(t.blurb.split(". ")[0]):(r.away?"Out of bounds \u2014 no harm done":"Held it too long"))+'</span></div></div>';
     $("verdictView").innerHTML=h;
     $("askView").classList.add("hidden");
@@ -1678,6 +1801,17 @@
         seq("triangle",["C3",0,"G3",0,"C3",0,"G3","C3","C3"],0.11,0.3);
         noise(0.44,0.25,0.12,4000); noise(0.88,0.4,0.12,4000);
         buzz([80,60,80,60,240]);
+      },
+      roar:function(){
+        var a=ctx(); if(!a) return;
+        try{
+          var len=a.sampleRate*1.6, buf=a.createBuffer(1,len,a.sampleRate), d=buf.getChannelData(0);
+          for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*(1-i/len);
+          var src=a.createBufferSource(), f=a.createBiquadFilter(), g=a.createGain(), t=a.currentTime;
+          f.type="bandpass"; f.frequency.value=900; f.Q.value=.6;
+          g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.32,t+.35); g.gain.linearRampToValueAtTime(0,t+1.6);
+          src.buffer=buf; src.connect(f); f.connect(g); g.connect(master); src.start(t);
+        }catch(e){}
       },
       unlockJingle:function(){ seq("square",["C5","E5","G5","C6","G5","C6"],0.07,0.12); seq("triangle",["C4",0,"G4",0,"C5"],0.08,0.25); },
       whistle:function(){
@@ -1778,7 +1912,7 @@
   setInterval(tickResetClock,1000); setTimeout(tickResetClock,0);
   function paintTheme(){ var t=THEMES[todayKey()], el=$("themeBar"); if(t){ el.textContent="\u2605 Today: "+t+" \u2605"; el.classList.remove("hidden"); } else el.classList.add("hidden"); }
   function paintHome(){
-    paintTheme();
+    paintTheme(); try{ paintChBanner(); }catch(e){}
     var s=loadStats(), st=streaks(s), key=todayKey(), done=s.days[key] && s.days[key].plays, pg=loadProg();
     var b=$("btnDaily");
     b.disabled=false;
@@ -2040,6 +2174,37 @@
     (function f(ts){ if(t0===null) t0=ts; var k=Math.min(1,(ts-t0)/(ms||600)), e=1-Math.pow(1-k,3);
       el.textContent=Math.round(from+(to-from)*e); if(k<1) requestAnimationFrame(f); })(performance.now());
   }
+
+  var CALLS={
+    film:["Splits the safeties!","Threads the needle up the seam!","Big gain downfield!"],
+    deep:["He's behind the defense!","Dropped right in the bucket!","Deep shot \u2014 hauled in!"],
+    hail:["GONE! Nobody's catching him!","From the moon \u2014 and it's CAUGHT!","That's a MOONBALL!"],
+    hm:["HAIL MARY\u2026 CAUGHT IT!!","ARE YOU KIDDING ME?! HAIL MARY!","Answered prayer! Yards doubled!"],
+    td:["TOUCHDOWN!","Six on the board!","Into the end zone!"],
+    int:["Picked off! Jumped the route!","Intercepted! Should've played it safe!"]
+  };
+  function callout(kind){
+    var list=CALLS[kind]; if(!list) return;
+    var el=$("callout"); el.textContent=list[Math.floor(Math.random()*list.length)];
+    el.className="callout c-"+kind; void el.offsetWidth; el.classList.add("on");
+    clearTimeout(callout._t); callout._t=setTimeout(function(){ el.className="callout hidden"; },2300);
+  }
+  function fireworks(n){
+    var fx=$("fx"); if(!fx) return;
+    var cols=["#ffd84d","#fff1b8","#3dff9a","#ff7ad9","#7ac8ff"];
+    for(var b=0;b<3;b++){
+      var cx=20+Math.random()*60, cy=15+Math.random()*40;
+      for(var i=0;i<n/3;i++){
+        var d=document.createElement("i"), a=Math.random()*Math.PI*2, r=40+Math.random()*90;
+        d.style.left=cx+"%"; d.style.top=cy+"%"; d.style.background=cols[(i+b)%cols.length];
+        d.style.setProperty("--dx",Math.round(Math.cos(a)*r)+"px"); d.style.setProperty("--dy",Math.round(Math.sin(a)*r+30)+"px");
+        d.style.animationDelay=(b*0.18)+"s";
+        fx.appendChild(d);
+      }
+    }
+    setTimeout(function(){ fx.innerHTML=""; },1700);
+  }
+  function quakeBox(){ var b=$("gameBox"); if(!b) return; b.classList.remove("quake"); void b.offsetWidth; b.classList.add("quake"); }
   function slam(){
     var el=$("slam"); el.classList.remove("hidden");
     var b=el.querySelector("b"), f=el.querySelector(".fl");
@@ -2082,10 +2247,11 @@
     $("finalGrade").textContent=grade(y,S.tds);
     $("drives").innerHTML=S.res.map(function(r){
       var t=TIERMAP[r.tier], key=t?t.key:"miss", col=t?tierColor(key):cssVar("--red");
-      return '<div class="drv t-'+key+(r.away?' away':'')+'"><div class="who">'+esc(r.said||"No answer")+'<small>'+(t?t.label:(r.away?"Thrown away":"Sacked"))+(r.td?" · TD":"")+'</small></div>'+
-        driveStrip(r.start,r.end,r.td,col)+'<div class="yd">'+(r.pts?"+"+r.pts:"0")+'</div></div>';
+      var lbl = r.hm==="int" ? "Hail Mary \u00B7 picked off" : (r.hm==="hit" ? "Hail Mary \u00B7 caught \u00D72" : (t?t.label:(r.away?"Thrown away":"Sacked")));
+      return '<div class="drv t-'+(r.hm==="int"?"miss":key)+(r.away?' away':'')+'"><div class="who">'+esc(r.said||"No answer")+'<small>'+lbl+(r.td?" · TD":"")+'</small></div>'+
+        driveStrip(r.start,r.end,r.td,col)+'<div class="yd">'+(r.pts>0?"+"+r.pts:(r.pts<0?"\u2212"+(-r.pts):"0"))+'</div></div>';
     }).join("");
-    $("shareGrid").textContent=S.res.map(function(r){ return EMOJI[r.tier]; }).join("");
+    $("shareGrid").textContent=S.res.map(function(r){ return r.hm==="hit"?"\u{1F315}":(r.hm==="int"?"\u{1F6AB}":EMOJI[r.tier]); }).join("");
     $("copied").textContent="";
     renderFilm();
     if(!fromSave) recordGame();
@@ -2099,7 +2265,9 @@
     if(!fromSave) syncPush();
     renderStats($("statsResult"));
     paintNudges();
+    paintVs(); setupReplay();
     show("result");
+    if(replayPlay && !fromSave) setTimeout(function(){ if(!$("result").classList.contains("hidden")) replayPlay(); },1800);
     loadDist({y:y,t:S.tds});
   }
 
@@ -2174,7 +2342,7 @@
     var others=real.filter(function(r){return !r.me;}).length;
     var sims=simField(key, Math.max(60, 400-8*others)).map(function(y){ return {y:y,sim:true}; });
     renderDist(real.concat(sims),counted,note,{real:others,live:live});
-    paintRarity();
+    paintRarity(); paintDeepCut();
     renderBoard($("boardRes"),"day"); paintNickBox();
   }
 
@@ -2744,10 +2912,11 @@
     // the seven plays as pixel blocks
     var bx=(W-(7*118-18))/2;
     S.res.forEach(function(r,i){
-      var col=TIERMAP[r.tier]?tierColor(r.tier):"#3a1218", x=bx+i*118, y=760;
+      var col=(r.hm!=="int" && TIERMAP[r.tier])?tierColor(r.tier):"#3a1218", x=bx+i*118, y=760;
       g.fillStyle="#05060b"; g.fillRect(x+8,y+8,100,100); g.fillStyle=col; g.fillRect(x,y,100,100);
       g.fillStyle="rgba(255,255,255,.35)"; g.fillRect(x,y,100,10); g.fillStyle="rgba(0,0,0,.3)"; g.fillRect(x,y+90,100,10);
-      if(!TIERMAP[r.tier]){ g.fillStyle="#ff4d5e"; for(var k=0;k<5;k++){ g.fillRect(x+25+k*10,y+25+k*10,10,10); g.fillRect(x+65-k*10,y+25+k*10,10,10); } }
+      if(r.hm==="hit"){ text("\u00D72",x+50,y+66,"26px "+PS,"#05060b"); }
+      if(r.hm==="int" || !TIERMAP[r.tier]){ g.fillStyle="#ff4d5e"; for(var k=0;k<5;k++){ g.fillRect(x+25+k*10,y+25+k*10,10,10); g.fillRect(x+65-k*10,y+25+k*10,10,10); } }
       if(r.td){ text("TD",x+50,y+140,"20px "+PS,"#ffd84d"); }
     });
     // QB + WR sprites in the equipped kits
@@ -2816,6 +2985,122 @@
   $("btnSponsor").addEventListener("click",openSponsor);
   $("btnPrivacy").addEventListener("click",openPrivacy);
   paintSocials();
+
+  /* ---------- Deep Cut of the Day: the rarest correct answer anyone gave ---------- */
+  var DEEPCUT_MIN=3;
+  async function paintDeepCut(){
+    var box=$("deepCut"); if(!box) return;
+    var key=todayKey(), rows=(LB.data && LB.data.rows)||[];
+    var perPrompt={}, seen={};
+    rows.forEach(function(r){
+      var v=r.days[key]; if(!v || !Array.isArray(v.picks)) return;
+      v.picks.forEach(function(pk){
+        if(!Array.isArray(pk)) return;
+        var pid=String(pk[0]); var o=perPrompt[pid]||(perPrompt[pid]={n:0,c:{},who:{}}); o.n++;
+        if(pk[1]==null) return; var a=String(pk[1]).slice(0,80);
+        o.c[a]=(o.c[a]||0)+1; if(!o.who[a] || (v.at||0)<o.who[a].at) o.who[a]={id:r.id,at:v.at||0};
+      });
+    });
+    var best=null;
+    Object.keys(perPrompt).forEach(function(pid){
+      var o=perPrompt[pid], p=promptById(pid); if(!p || o.n<DEEPCUT_MIN) return; buildIndex(p);
+      Object.keys(o.c).forEach(function(a){
+        var hit=match(p,a); if(!hit) return;
+        var share=o.c[a]/o.n, sc=share-hit.pts/10000;
+        if(!best || sc<best.sc) best={sc:sc,p:p,hit:hit,n:o.n,c:o.c[a],who:o.who[a]};
+      });
+    });
+    if(!best){ box.classList.add("hidden"); return; }
+    var nm=await namesFor([best.who.id]), me=LB.data && best.who.id===LB.data.me;
+    var name=me?"YOU":(nm[best.who.id]||"a mystery player");
+    box.innerHTML='<div class="deepcut t-'+best.hit.tier+'"><div class="dck">🌙 Deep Cut of the Day</div>'+
+      '<div class="dca">'+esc(best.hit.display)+'</div><div class="dcq">'+esc(best.p.prompt)+'</div>'+
+      '<div class="dcs">'+best.c+' of '+best.n+' players said it · first by <b>'+esc(name)+'</b>'+(me?' 🎉':'')+'</div></div>';
+    box.classList.remove("hidden");
+  }
+
+  /* ---------- best throw replay ---------- */
+  var replayField=null, replayPlay=null;
+  function setupReplay(){
+    var box=$("replayBox"); if(!box) return;
+    var best=null;
+    S.res.forEach(function(r,i){ if(r.pts>0 && (!best || r.pts>best.r.pts)) best={r:r,i:i}; });
+    if(!best || best.r.pts<15){ box.classList.add("hidden"); return; }
+    box.classList.remove("hidden");
+    if(!replayField){ replayField=Field($("replayField"),"r"); }
+    var e=loadStats().equip||{}; replayField.setSkins(skinById(QBS,e.qb),skinById(WRS,e.wr));
+    var r=best.r, t=TIERMAP[r.tier];
+    $("replayTag").textContent=(r.hm==="hit"?"Hail Mary ×2":t.label)+" · "+(r.said||"")+" · +"+r.pts;
+    replayPlay=function(){
+      replayField.setLOS(r.start);
+      setTimeout(function(){ SFX.throwBall(Math.min(r.pts,60)); if(r.pts>=45) setTimeout(function(){ SFX.roar(); },350);
+        replayField.throwBall(r.pts,tierColor(r.tier),S.lanes?S.lanes[best.i]:.5,function(){ SFX.catchBall(Math.min(r.pts,60)); },1.9); },250);
+    };
+  }
+  $("btnReplay").addEventListener("click",function(){ if(replayPlay) replayPlay(); });
+
+  /* ---------- challenge links: "beat my drive" ---------- */
+  var CH_KEY="deepball:challenge", TCODE={chalk:1,bandwagon:2,starter:3,film:4,deep:5,hail:6,miss:0}, TDEC=["miss","chalk","bandwagon","starter","film","deep","hail"];
+  function b64e(str){ var b=new TextEncoder().encode(str), k="moonball", s2=""; for(var i=0;i<b.length;i++) s2+=String.fromCharCode(b[i]^k.charCodeAt(i%k.length)); return btoa(s2).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+  function b64d(code){ var s2=atob(code.replace(/-/g,"+").replace(/_/g,"/")), k="moonball", u=new Uint8Array(s2.length); for(var i=0;i<s2.length;i++) u[i]=s2.charCodeAt(i)^k.charCodeAt(i%k.length); return new TextDecoder().decode(u); }
+  function myChallengeCode(){
+    var o={v:1,d:todayKey(),n:(MYNICK||"").slice(0,16),y:total(),t:S.tds,p:S.res.map(function(r){ return [r.p.id,r.said||"",TCODE[r.tier]||0,r.pts,r.hm==="hit"?1:(r.hm==="int"?2:0)]; })};
+    return b64e(JSON.stringify(o));
+  }
+  function readChallenge(){
+    var m=(location.hash||"").match(/[#&]c=([A-Za-z0-9_-]+)/);
+    if(m){
+      try{ var o=JSON.parse(b64d(m[1])); if(o && o.v===1 && Array.isArray(o.p)){ localStorage.setItem(CH_KEY,JSON.stringify(o)); } }catch(e){}
+      try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+    }
+    try{ return JSON.parse(localStorage.getItem(CH_KEY)||"null"); }catch(e){ return null; }
+  }
+  var CH=readChallenge();
+  function chName(){ return CH && CH.n ? CH.n : "Your friend"; }
+  function paintChBanner(){
+    var el=$("chBanner"); if(!el) return;
+    if(!CH){ el.classList.add("hidden"); return; }
+    var today=todayKey(), played=!!(loadStats().days[today]||{}).plays;
+    var h='<div class="chk">You\u2019ve been challenged</div>';
+    if(CH.d===today){
+      h+='<div class="cht"><b>'+esc(chName())+'</b> went for <b>'+CH.y+' yards</b> today. Can you beat it?</div>';
+      h+= played ? '<button type="button" class="btn" id="chSee">See the matchup</button>' : '<div class="chs">Their answers unlock after your drive.</div>';
+    } else {
+      h+='<div class="cht"><b>'+esc(chName())+'</b> challenged you on '+esc(CH.d)+' ('+CH.y+' yards). That drive is over, so play today’s and send one back.</div>';
+      h+='<button type="button" class="btn ghost" id="chDismiss">Dismiss</button>';
+    }
+    el.innerHTML=h; el.classList.remove("hidden");
+    var see=$("chSee"); if(see) see.addEventListener("click",function(){ start(); });
+    var dis=$("chDismiss"); if(dis) dis.addEventListener("click",function(){ try{ localStorage.removeItem(CH_KEY); }catch(e){} CH=null; paintChBanner(); });
+  }
+  function paintVs(){
+    var box=$("vsBox"); if(!box) return;
+    if(!CH || CH.d!==todayKey()){ box.classList.add("hidden"); return; }
+    var mine=total(), theirs=CH.y, myT=S.tds, win=mine>theirs?1:(mine<theirs?-1:0);
+    var head=win>0?"You beat "+esc(chName())+"!":(win<0?esc(chName())+" wins this one":"Dead even!");
+    var h='<div class="vs '+(win>0?"won":(win<0?"lost":"tie"))+'"><div class="vsk">Head to head</div><div class="vsh">'+head+'</div>'+
+      '<div class="vsscore"><div><b>'+mine+'</b><span>You · '+myT+' TD</span></div><div class="vsv">vs</div><div><b>'+theirs+'</b><span>'+esc(chName())+' · '+(CH.t||0)+' TD</span></div></div>';
+    S.res.forEach(function(r,i){
+      var o=(CH.p||[]).filter(function(x){ return x[0]===r.p.id; })[0]||(CH.p||[])[i];
+      var tp=o?o[3]:0, ts=o&&o[1]?o[1]:(o&&o[4]===2?"Picked off":"No answer"), tt=o?TDEC[o[2]]:"miss";
+      var mw=r.pts>tp, tw=tp>r.pts;
+      h+='<div class="vsrow"><div class="vsq">'+esc(r.prompt)+'</div>'+
+        '<div class="vsc'+(mw?" w":"")+'"><b>'+esc(r.said||(r.hm==="int"?"Picked off":"No answer"))+'</b><span class="t-'+(r.hm==="int"?"miss":r.tier)+'">'+(r.pts>0?"+":"")+r.pts+'</span></div>'+
+        '<div class="vsc'+(tw?" w":"")+'"><b>'+esc(ts)+'</b><span class="t-'+tt+'">'+(tp>0?"+":"")+tp+'</span></div></div>';
+    });
+    h+='</div>';
+    box.innerHTML=h; box.classList.remove("hidden");
+  }
+  $("btnChallenge").addEventListener("click",async function(){
+    var url=location.origin+location.pathname+"#c="+myChallengeCode();
+    var txt="⚔ I went for "+total()+" yards on today’s Moonball. Beat my drive:";
+    if(!MYNICK){ dialog('<h3>Challenge a friend</h3><p>Pick a leaderboard nickname first so your friend knows who’s challenging them.</p><div id="nickDlg">'+nickFormHTML(null)+'</div>');
+      var host=$("nickDlg"); wireNickForm(host,function(){ $("dlg").classList.add("hidden"); $("btnChallenge").click(); }); return; }
+    try{ if(navigator.share){ await navigator.share({title:"Moonball challenge",text:txt,url:url}); return; } }catch(e){ if(e && e.name==="AbortError") return; }
+    var copied=false; try{ await navigator.clipboard.writeText(txt+" "+url); copied=true; }catch(e){}
+    dialog('<h3>Challenge a friend</h3><p>'+(copied?"Link copied! Paste it in a text or group chat.":"Copy this link and send it to a friend:")+'</p>'+
+      '<input class="nickin chlink" readonly value="'+esc(url)+'" onclick="this.select()"><p class="fine">They’ll play today’s same seven prompts, then see your drive next to theirs.</p>');
+  });
 
   // expose for testing
   window.__deepball={match:match,suggest:suggest,sched:function(){return SCHED;},count:function(){return PROMPTS.length;},ready:customReady};
